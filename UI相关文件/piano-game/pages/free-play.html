@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自由弹奏 · 键琴</title>
+    <style id="theme-vars">
+/* ============================================================
+   键盘弹钢琴 — 品牌设计 Token
+   prefix: piano | theme: dark (default) / light (high-contrast)
+   ============================================================ */
+
+/* --- @font-face (absolute URL, no @import) --- */
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-700-normal.woff2') format('woff2');
+}
+
+/* --- @theme inline (fill-html-head.mjs semantic marker) --- */
+@theme inline {
+  --color-piano-purple: #6d28d9;
+  --color-piano-pink: #db2777;
+  --color-piano-cyan: #0891b2;
+}
+
+/* --- Brand Color Scale --- */
+:root {
+  --piano-purple: #6d28d9;
+  --piano-purple-300: #c4b5fd;
+  --piano-purple-400: #a78bfa;
+  --piano-purple-500: #8b5cf6;
+  --piano-purple-600: #7c3aed;
+  --piano-purple-700: #5b21b6;
+
+  --piano-pink: #db2777;
+  --piano-pink-300: #f9a8d4;
+  --piano-pink-400: #f472b6;
+  --piano-pink-soft: rgba(219, 39, 119, 0.14);
+
+  --piano-cyan: #0891b2;
+  --piano-cyan-300: #67e8f9;
+  --piano-cyan-400: #22d3ee;
+  --piano-cyan-soft: rgba(8, 145, 178, 0.14);
+
+  /* Semantic state colors (judgment tiers) */
+  --state-success: #22d3ee;  /* Perfect ±50ms → cyan */
+  --state-info: #8b5cf6;     /* Great ±100ms → purple */
+  --state-warning: #db2777;  /* Good ±150ms → pink */
+  --state-error: #f43f5e;    /* Miss → red */
+
+  /* Radius scale (restrained) */
+  --piano-radius-sm: 4px;
+  --piano-radius-md: 8px;
+  --piano-radius-lg: 16px;
+  --piano-radius-full: 9999px;
+
+  /* Typography */
+  --piano-font-display: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-body: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+}
+
+/* --- Light theme (high-contrast accessibility mode) --- */
+:root {
+  --piano-background: #ffffff;
+  --piano-foreground: #0b0a14;
+  --piano-card: #f6f7fb;
+  --piano-card-foreground: #16182d;
+  --piano-popover: #ffffff;
+  --piano-popover-foreground: #0b0a14;
+  --piano-muted: #eef0f7;
+  --piano-muted-foreground: #6a6c80;
+  --piano-border: #e7e8f0;
+  --piano-input: #e7e8f0;
+  --piano-ring: #6d28d9;
+  --piano-primary: #6d28d9;
+  --piano-primary-foreground: #ffffff;
+
+  /* Semantic aliases for fill-html-head.mjs */
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Dark theme (default immersive mode) --- */
+.dark {
+  --piano-background: #0d0b1a;
+  --piano-foreground: #f4f1ff;
+  --piano-card: #16132a;
+  --piano-card-foreground: #ece8ff;
+  --piano-popover: #1d1936;
+  --piano-popover-foreground: #f4f1ff;
+  --piano-muted: #1d1936;
+  --piano-muted-foreground: #a89fcf;
+  --piano-border: #2a2545;
+  --piano-input: #2a2545;
+  --piano-ring: #8b5cf6;
+  --piano-primary: #8b5cf6;
+  --piano-primary-foreground: #ffffff;
+
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Semantic token fallback (fill-html-head.mjs marker) --- */
+#semantic-token-fallback {
+  --background: var(--piano-background);
+  --foreground: var(--piano-foreground);
+  --card: var(--piano-card);
+  --card-foreground: var(--piano-card-foreground);
+  --popover: var(--piano-popover);
+  --popover-foreground: var(--piano-popover-foreground);
+  --muted: var(--piano-muted);
+  --muted-foreground: var(--piano-muted-foreground);
+  --border: var(--piano-border);
+  --input: var(--piano-input);
+  --ring: var(--piano-ring);
+  --primary: var(--piano-primary);
+  --primary-foreground: var(--piano-primary-foreground);
+  --radius-sm: var(--piano-radius-sm);
+  --radius-md: var(--piano-radius-md);
+  --radius-lg: var(--piano-radius-lg);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--piano-background);
+    --color-foreground: var(--piano-foreground);
+    --color-card: var(--piano-card);
+    --color-card-foreground: var(--piano-card-foreground);
+    --color-popover: var(--piano-popover);
+    --color-popover-foreground: var(--piano-popover-foreground);
+    --color-primary: var(--piano-primary);
+    --color-primary-foreground: var(--piano-primary-foreground);
+    --color-muted: var(--piano-muted);
+    --color-muted-foreground: var(--piano-muted-foreground);
+    --color-border: var(--piano-border);
+    --color-input: var(--piano-input);
+    --color-ring: var(--piano-ring);
+    --radius-sm: var(--piano-radius-sm);
+    --radius-md: var(--piano-radius-md);
+    --radius-lg: var(--piano-radius-lg);
+  }
+  @layer base {
+    body { background: var(--piano-background); color: var(--piano-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--piano-background); }
+      .text-background { color: var(--piano-background); }
+      .border-background { border-color: var(--piano-background); }
+      .ring-background { --tw-ring-color: var(--piano-background); }
+      .bg-foreground { background-color: var(--piano-foreground); }
+      .text-foreground { color: var(--piano-foreground); }
+      .border-foreground { border-color: var(--piano-foreground); }
+      .ring-foreground { --tw-ring-color: var(--piano-foreground); }
+      .bg-card { background-color: var(--piano-card); }
+      .text-card { color: var(--piano-card); }
+      .border-card { border-color: var(--piano-card); }
+      .ring-card { --tw-ring-color: var(--piano-card); }
+      .bg-card-foreground { background-color: var(--piano-card-foreground); }
+      .text-card-foreground { color: var(--piano-card-foreground); }
+      .border-card-foreground { border-color: var(--piano-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--piano-card-foreground); }
+      .bg-popover { background-color: var(--piano-popover); }
+      .text-popover { color: var(--piano-popover); }
+      .border-popover { border-color: var(--piano-popover); }
+      .ring-popover { --tw-ring-color: var(--piano-popover); }
+      .bg-popover-foreground { background-color: var(--piano-popover-foreground); }
+      .text-popover-foreground { color: var(--piano-popover-foreground); }
+      .border-popover-foreground { border-color: var(--piano-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--piano-popover-foreground); }
+      .bg-primary { background-color: var(--piano-primary); }
+      .text-primary { color: var(--piano-primary); }
+      .border-primary { border-color: var(--piano-primary); }
+      .ring-primary { --tw-ring-color: var(--piano-primary); }
+      .bg-primary-foreground { background-color: var(--piano-primary-foreground); }
+      .text-primary-foreground { color: var(--piano-primary-foreground); }
+      .border-primary-foreground { border-color: var(--piano-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--piano-primary-foreground); }
+      .bg-muted { background-color: var(--piano-muted); }
+      .text-muted { color: var(--piano-muted); }
+      .border-muted { border-color: var(--piano-muted); }
+      .ring-muted { --tw-ring-color: var(--piano-muted); }
+      .bg-muted-foreground { background-color: var(--piano-muted-foreground); }
+      .text-muted-foreground { color: var(--piano-muted-foreground); }
+      .border-muted-foreground { border-color: var(--piano-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--piano-muted-foreground); }
+      .bg-border { background-color: var(--piano-border); }
+      .text-border { color: var(--piano-border); }
+      .border-border { border-color: var(--piano-border); }
+      .ring-border { --tw-ring-color: var(--piano-border); }
+      .bg-input { background-color: var(--piano-input); }
+      .text-input { color: var(--piano-input); }
+      .border-input { border-color: var(--piano-input); }
+      .ring-input { --tw-ring-color: var(--piano-input); }
+      .bg-ring { background-color: var(--piano-ring); }
+      .text-ring { color: var(--piano-ring); }
+      .border-ring { border-color: var(--piano-ring); }
+      .ring-ring { --tw-ring-color: var(--piano-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- Fixed shared background -->
+      <div aria-hidden="true" class="fixed inset-0 -z-10 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, var(--piano-purple-700), var(--piano-background) 70%);"></div>
+
+      <!-- Shared top bar -->
+      <header class="fixed top-0 inset-x-0 z-50 h-14 flex items-center justify-between gap-2 px-4 sm:px-6" style="background: var(--piano-card); border-bottom: 1px solid var(--piano-border);">
+        <a href="#" data-dom-id="back-home" class="shrink-0 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">键琴</a>
+        <nav class="flex items-center gap-4 sm:gap-6">
+          <a href="#" data-nav-key="home" data-dom-id="nav-home" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">首页</a>
+          <a href="#" data-nav-key="library" data-dom-id="nav-library" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">曲库</a>
+          <a href="#" data-nav-key="settings" data-dom-id="nav-settings" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">设置</a>
+        </nav>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" aria-label="切换主题" class="inline-flex items-center justify-center h-9 w-9 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">
+            <i data-lucide="palette" class="h-5 w-5"></i>
+          </button>
+          <button type="button" aria-label="帮助" class="inline-flex items-center justify-center h-9 w-9 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">
+            <i data-lucide="help-circle" class="h-5 w-5"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- App shell root -->
+      <div data-viewport-mode="app-shell" class="h-screen overflow-hidden min-h-0 flex flex-col pt-14">
+        <!-- MAIN AREA: left panel + center stage + right panel -->
+        <div class="flex-1 flex min-h-0 overflow-hidden">
+
+          <!-- LEFT CONTROL PANEL -->
+          <aside data-scroll-region="primary" class="hidden lg:flex w-[220px] shrink-0 flex-col gap-4 overflow-y-auto no-scrollbar p-4" style="background: var(--piano-card); border-right: 1px solid var(--piano-border);">
+            <!-- Octave -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">八度</span>
+              <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 24px; font-weight: 700; color: var(--piano-foreground);">C4</span>
+              <div class="flex gap-2">
+                <button type="button" class="flex-1 text-center py-2 rounded-md transition-opacity hover:opacity-80 whitespace-nowrap" style="font-family: var(--piano-font-mono); border: 1px solid var(--piano-border); color: var(--piano-foreground);">Z ←</button>
+                <button type="button" class="flex-1 text-center py-2 rounded-md transition-opacity hover:opacity-80 whitespace-nowrap" style="font-family: var(--piano-font-mono); border: 1px solid var(--piano-border); color: var(--piano-foreground);">X →</button>
+              </div>
+            </div>
+            <!-- Timbre -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">音色</span>
+              <div class="flex flex-col gap-1">
+                <button type="button" class="text-left px-3 py-2 rounded-md cursor-pointer whitespace-nowrap" style="background: var(--piano-primary); color: var(--piano-primary-foreground); border: 1px solid var(--piano-primary); font-size: 13px;">三角钢琴</button>
+                <button type="button" class="text-left px-3 py-2 rounded-md cursor-pointer transition-opacity hover:opacity-80 whitespace-nowrap" style="border: 1px solid var(--piano-border); color: var(--piano-foreground); font-size: 13px;">音乐盒</button>
+                <button type="button" class="text-left px-3 py-2 rounded-md cursor-pointer transition-opacity hover:opacity-80 whitespace-nowrap" style="border: 1px solid var(--piano-border); color: var(--piano-foreground); font-size: 13px;">合成Pad</button>
+                <button type="button" class="text-left px-3 py-2 rounded-md cursor-pointer transition-opacity hover:opacity-80 whitespace-nowrap" style="border: 1px solid var(--piano-border); color: var(--piano-foreground); font-size: 13px;">8-bit</button>
+              </div>
+            </div>
+            <!-- Sustain -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">延音踏板</span>
+              <div class="flex items-center justify-between">
+                <span class="text-sm whitespace-nowrap" style="color: var(--piano-foreground);">空格键</span>
+                <button type="button" aria-label="延音开关" class="relative h-5 w-9 rounded-full shrink-0" style="background: var(--piano-border);">
+                  <span class="absolute top-0.5 left-0.5 h-4 w-4 rounded-full" style="background: var(--piano-foreground);"></span>
+                </button>
+              </div>
+            </div>
+            <!-- Metronome -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">节拍器</span>
+              <div class="flex items-center justify-between">
+                <span class="text-sm whitespace-nowrap" style="color: var(--piano-foreground);">开启</span>
+                <button type="button" aria-label="节拍器开关" class="relative h-5 w-9 rounded-full shrink-0" style="background: var(--piano-border);">
+                  <span class="absolute top-0.5 left-0.5 h-4 w-4 rounded-full" style="background: var(--piano-foreground);"></span>
+                </button>
+              </div>
+              <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">120 BPM</span>
+            </div>
+            <!-- Recording -->
+            <div class="flex flex-col gap-2 items-center">
+              <span class="self-start text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">录音</span>
+              <button type="button" aria-label="录音" class="h-12 w-12 rounded-full flex items-center justify-center transition-opacity hover:opacity-90" style="background: var(--piano-pink);">
+                <i data-lucide="circle" class="h-5 w-5" style="color: var(--piano-primary-foreground);"></i>
+              </button>
+              <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">00:00</span>
+              <span class="text-xs text-center whitespace-nowrap" style="color: var(--piano-muted-foreground);">录音 / 回放 / 导出</span>
+            </div>
+          </aside>
+
+          <!-- CENTER STAGE -->
+          <div class="flex-1 relative flex flex-col min-w-0">
+            <!-- 3D Visual area -->
+            <div class="flex-1 relative overflow-hidden">
+              <canvas id="piano3d" class="absolute inset-0 w-full h-full"></canvas>
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 48px; font-weight: 700; color: var(--piano-purple-400); opacity: 0.8;">C4</span>
+              </div>
+              <span class="absolute bottom-3 left-3 whitespace-nowrap" style="font-size: 12px; color: var(--piano-muted-foreground);">按下键盘 A-J 弹奏 · Z/X 切换八度</span>
+            </div>
+            <!-- CTA bar -->
+            <a href="#" data-dom-id="cta-to-follow-play" class="absolute top-4 right-4 z-10 inline-flex items-center justify-center whitespace-nowrap rounded-md px-5 py-2 transition-opacity hover:opacity-90" style="background: var(--piano-primary); color: var(--piano-primary-foreground); font-family: var(--piano-font-display); font-size: 13px; font-weight: 600;">选曲跟弹 →</a>
+          </div>
+
+          <!-- RIGHT INFO PANEL -->
+          <aside class="hidden lg:flex w-[240px] shrink-0 flex-col gap-4 overflow-y-auto no-scrollbar p-4" style="background: var(--piano-card); border-left: 1px solid var(--piano-border);">
+            <!-- Key mapping -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">按键映射</span>
+              <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">A</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">C4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">W</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">C#4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">S</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">D4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">E</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">D#4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">D</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">E4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">F</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">F4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">T</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">F#4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">G</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">G4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">Y</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">G#4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">H</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">A4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">U</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">A#4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center justify-center rounded-sm px-1.5 py-0.5 whitespace-nowrap" style="background: var(--piano-muted); font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">J</span>
+                  <span style="color: var(--piano-muted-foreground); font-size: 12px;">→</span>
+                  <span class="ml-auto whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-foreground);">B4</span>
+                </div>
+              </div>
+            </div>
+            <!-- Velocity -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">力度</span>
+              <div class="flex items-center gap-2">
+                <div class="flex-1 h-1 rounded-full overflow-hidden" style="background: var(--piano-muted);">
+                  <div class="h-full rounded-full" style="width: 60%; background: var(--piano-purple-500);"></div>
+                </div>
+                <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-muted-foreground);">60</span>
+              </div>
+            </div>
+            <!-- Recording info -->
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase whitespace-nowrap" style="color: var(--piano-muted-foreground);">录音时长</span>
+              <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; color: var(--piano-foreground);">00:00</span>
+            </div>
+          </aside>
+        </div>
+
+        <!-- PIANO KEYBOARD BAR -->
+        <div class="h-[160px] shrink-0 relative flex" style="background: var(--piano-card); border-top: 1px solid var(--piano-border);">
+          <!-- White keys -->
+          <div data-key="a" class="flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">A</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">C4</span>
+          </div>
+          <div data-key="s" class="flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">S</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">D4</span>
+          </div>
+          <div data-key="d" class="is-down flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">D</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">E4</span>
+          </div>
+          <div data-key="f" class="flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">F</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">F4</span>
+          </div>
+          <div data-key="g" class="flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">G</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">G4</span>
+          </div>
+          <div data-key="h" class="flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">H</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">A4</span>
+          </div>
+          <div data-key="j" class="flex-1 h-full relative cursor-pointer transition-transform duration-[120ms] flex flex-col items-center justify-end pb-3" style="background: linear-gradient(180deg, var(--piano-card-foreground) 0%, var(--piano-card) 100%); border-right: 1px solid var(--piano-border);">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">J</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">B4</span>
+          </div>
+          <!-- Black keys -->
+          <div data-key="w" class="absolute top-0 flex flex-col items-center justify-end pb-2" style="height: 60%; width: calc(60% / 7); left: calc(70% / 7); background: linear-gradient(180deg, var(--piano-foreground) 0%, var(--piano-muted) 100%); border-radius: 0 0 var(--piano-radius-sm) var(--piano-radius-sm); z-index: 2;">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: var(--piano-primary-foreground);">W</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 9px; color: var(--piano-primary-foreground); opacity: 0.7;">C#4</span>
+          </div>
+          <div data-key="e" class="absolute top-0 flex flex-col items-center justify-end pb-2" style="height: 60%; width: calc(60% / 7); left: calc(170% / 7); background: linear-gradient(180deg, var(--piano-foreground) 0%, var(--piano-muted) 100%); border-radius: 0 0 var(--piano-radius-sm) var(--piano-radius-sm); z-index: 2;">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: var(--piano-primary-foreground);">E</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 9px; color: var(--piano-primary-foreground); opacity: 0.7;">D#4</span>
+          </div>
+          <div data-key="t" class="absolute top-0 flex flex-col items-center justify-end pb-2" style="height: 60%; width: calc(60% / 7); left: calc(370% / 7); background: linear-gradient(180deg, var(--piano-foreground) 0%, var(--piano-muted) 100%); border-radius: 0 0 var(--piano-radius-sm) var(--piano-radius-sm); z-index: 2;">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: var(--piano-primary-foreground);">T</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 9px; color: var(--piano-primary-foreground); opacity: 0.7;">F#4</span>
+          </div>
+          <div data-key="y" class="absolute top-0 flex flex-col items-center justify-end pb-2" style="height: 60%; width: calc(60% / 7); left: calc(470% / 7); background: linear-gradient(180deg, var(--piano-foreground) 0%, var(--piano-muted) 100%); border-radius: 0 0 var(--piano-radius-sm) var(--piano-radius-sm); z-index: 2;">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: var(--piano-primary-foreground);">Y</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 9px; color: var(--piano-primary-foreground); opacity: 0.7;">G#4</span>
+          </div>
+          <div data-key="u" class="absolute top-0 flex flex-col items-center justify-end pb-2" style="height: 60%; width: calc(60% / 7); left: calc(570% / 7); background: linear-gradient(180deg, var(--piano-foreground) 0%, var(--piano-muted) 100%); border-radius: 0 0 var(--piano-radius-sm) var(--piano-radius-sm); z-index: 2;">
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: var(--piano-primary-foreground);">U</span>
+            <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 9px; color: var(--piano-primary-foreground); opacity: 0.7;">A#4</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <style>
+      .is-down {
+        transform: translateY(2px);
+        filter: brightness(1.3);
+        box-shadow: 0 0 20px var(--piano-purple-500);
+      }
+    </style>
+    <script>lucide.createIcons();</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function () {
+        var canvas = document.getElementById('piano3d');
+        if (!canvas || typeof THREE === 'undefined') return;
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+        camera.position.set(0, 0, 8);
+
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+        var palette = [0x8b5cf6, 0xa78bfa, 0x6d28d9, 0xc4b5fd, 0x7c3aed];
+        var shapes = [];
+        for (var i = 0; i < 7; i++) {
+          var size = 0.6 + Math.random() * 0.8;
+          var geo = new THREE.BoxGeometry(size, size, size);
+          var edges = new THREE.EdgesGeometry(geo);
+          var mat = new THREE.LineBasicMaterial({
+            color: palette[i % palette.length],
+            transparent: true,
+            opacity: 0.5
+          });
+          var line = new THREE.LineSegments(edges, mat);
+          line.position.set(
+            (Math.random() - 0.5) * 12,
+            (Math.random() - 0.5) * 7,
+            (Math.random() - 0.5) * 4 - 2
+          );
+          line.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+          line.userData.rotSpeed = 0.002 + Math.random() * 0.004;
+          scene.add(line);
+          shapes.push(line);
+        }
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+        function resize() {
+          var parent = canvas.parentElement;
+          if (!parent) return;
+          var w = parent.clientWidth;
+          var h = parent.clientHeight;
+          if (w > 0 && h > 0) {
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+          }
+        }
+
+        function animate() {
+          requestAnimationFrame(animate);
+          for (var i = 0; i < shapes.length; i++) {
+            shapes[i].rotation.x += shapes[i].userData.rotSpeed;
+            shapes[i].rotation.y += shapes[i].userData.rotSpeed * 0.7;
+          }
+          renderer.render(scene, camera);
+        }
+
+        resize();
+        animate();
+        window.addEventListener('resize', resize);
+        if (window.ResizeObserver && canvas.parentElement) {
+          new ResizeObserver(resize).observe(canvas.parentElement);
+        }
+      })();
+    </script>
+</body>
+</html>

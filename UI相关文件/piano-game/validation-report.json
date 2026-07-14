@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.07.06.8",
+    "version_source": "skill-version.json",
+    "runtime_skill_dir": "c:\\Users\\30560\\.trae-cn\\builtin\\design\\default\\skills\\solo-design",
+    "recorded_at": "2026-07-13T12:00:00Z",
+    "read_status": "ok"
+  },
+  "operatingMode": "free-explore",
+  "renderBlockingErrorCount": 0,
+  "softWarningCount": 0,
+  "renderBlockingErrors": [],
+  "softWarnings": [],
+  "repairPlanHints": [],
+  "errorCount": 0,
+  "warningCount": 0,
+  "errors": [],
+  "warnings": [],
+  "designDir": "C:\\Users\\30560\\AppData\\Roaming\\TRAE SOLO CN\\ModularData\\ai-agent\\work-mode-projects\\6a54f547cfd3e63d2c55e9eb\\piano-game",
+  "expectedPages": 8,
+  "requireInteractions": "cta-ai-transcription:home.html,cta-library:home.html,cta-enter-follow:ai-transcription.html,cta-play-song:song-library.html,cta-results:follow-play.html,cta-3d-piano:home.html",
+  "checkedAt": "2026-07-13T16:33:14.224Z"
+}

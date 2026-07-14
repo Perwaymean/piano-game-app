@@ -1,0 +1,469 @@
+{
+  "data": [
+    {
+      "id": "page-home",
+      "title": "首页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/home.html",
+        "interactions": [
+          {
+            "domId": "cta-ai-transcription",
+            "targetPageId": "page-ai-transcription",
+            "transitionLabel": "AI 转谱"
+          },
+          {
+            "domId": "cta-library",
+            "targetPageId": "page-song-library",
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "cta-free-play",
+            "targetPageId": "page-free-play",
+            "hideEdge": true,
+            "transitionLabel": "自由弹奏"
+          },
+          {
+            "domId": "shortcut-free-play",
+            "targetPageId": "page-free-play",
+            "hideEdge": true,
+            "transitionLabel": "自由弹奏"
+          },
+          {
+            "domId": "shortcut-follow-play",
+            "targetPageId": "page-follow-play",
+            "hideEdge": true,
+            "transitionLabel": "跟弹打分"
+          },
+          {
+            "domId": "link-ai-transcription",
+            "targetPageId": "page-ai-transcription",
+            "hideEdge": true,
+            "transitionLabel": "AI 转谱"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "cta-3d-piano",
+            "targetPageId": "page-3d-piano-particles",
+            "hideEdge": true,
+            "transitionLabel": "3D 展示"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-free-play",
+      "title": "自由弹奏",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 0,
+        "y": 903,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/free-play.html",
+        "interactions": [
+          {
+            "domId": "cta-to-follow-play",
+            "targetPageId": "page-follow-play",
+            "hideEdge": true,
+            "transitionLabel": "选曲跟弹"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-follow-play",
+      "title": "跟弹打分",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 1240,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/follow-play.html",
+        "interactions": [
+          {
+            "domId": "cta-results",
+            "targetPageId": "page-results",
+            "transitionLabel": "结束本曲"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-ai-transcription",
+      "title": "AI 转谱",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 620,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/ai-transcription.html",
+        "interactions": [
+          {
+            "domId": "cta-enter-follow",
+            "targetPageId": "page-follow-play",
+            "transitionLabel": "进入跟弹"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-song-library",
+      "title": "曲库",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 620,
+        "y": 526,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/song-library.html",
+        "interactions": [
+          {
+            "domId": "cta-play-song",
+            "targetPageId": "page-follow-play",
+            "transitionLabel": "开始跟弹"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-results",
+      "title": "结算",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 1860,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/results.html",
+        "interactions": [
+          {
+            "domId": "shortcut-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "换一首"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-settings",
+      "title": "设置",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 620,
+        "y": 903,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/settings.html",
+        "interactions": [
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-3d-piano-particles",
+      "title": "3D 钢琴",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783959200000,
+      "canvasData": {
+        "x": 1240,
+        "y": 903,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/3d-piano-particles.html",
+        "interactions": [
+          {
+            "domId": "cta-back-free-play",
+            "targetPageId": "page-free-play",
+            "hideEdge": true,
+            "transitionLabel": "返回弹奏"
+          },
+          {
+            "domId": "back-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "返回首页"
+          },
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "首页"
+          },
+          {
+            "domId": "nav-library",
+            "targetPageId": "page-song-library",
+            "hideEdge": true,
+            "transitionLabel": "曲库"
+          },
+          {
+            "domId": "nav-settings",
+            "targetPageId": "page-settings",
+            "hideEdge": true,
+            "transitionLabel": "设置"
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "首页 Hero - 星空钢琴",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1783954454000,
+      "canvasData": {
+        "x": 0,
+        "y": 1476
+      },
+      "devMetadata": {
+        "imageSrc": "assets/hero-starry-piano.jpg"
+      }
+    },
+    {
+      "id": "image-002",
+      "title": "二次元 - 金克丝",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1783959900000,
+      "canvasData": {
+        "x": 620,
+        "y": 1476
+      },
+      "devMetadata": {
+        "imageSrc": "assets/anime-jinx.jpg"
+      }
+    },
+    {
+      "id": "image-003",
+      "title": "二次元 - 小兰",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1783959900000,
+      "canvasData": {
+        "x": 1240,
+        "y": 1476
+      },
+      "devMetadata": {
+        "imageSrc": "assets/anime-girl-long-hair.jpg"
+      }
+    },
+    {
+      "id": "image-004",
+      "title": "二次元 - 灰原哀",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1783959900000,
+      "canvasData": {
+        "x": 1860,
+        "y": 1476
+      },
+      "devMetadata": {
+        "imageSrc": "assets/anime-haibara.jpg"
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "键盘弹钢琴",
+    "designLibrary": null,
+    "visualEditorEnabled": false,
+    "showEdge": false
+  }
+}

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跟弹打分 · 键琴</title>
+    <style id="theme-vars">
+/* ============================================================
+   键盘弹钢琴 — 品牌设计 Token
+   prefix: piano | theme: dark (default) / light (high-contrast)
+   ============================================================ */
+
+/* --- @font-face (absolute URL, no @import) --- */
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-700-normal.woff2') format('woff2');
+}
+
+/* --- @theme inline (fill-html-head.mjs semantic marker) --- */
+@theme inline {
+  --color-piano-purple: #6d28d9;
+  --color-piano-pink: #db2777;
+  --color-piano-cyan: #0891b2;
+}
+
+/* --- Brand Color Scale --- */
+:root {
+  --piano-purple: #6d28d9;
+  --piano-purple-300: #c4b5fd;
+  --piano-purple-400: #a78bfa;
+  --piano-purple-500: #8b5cf6;
+  --piano-purple-600: #7c3aed;
+  --piano-purple-700: #5b21b6;
+
+  --piano-pink: #db2777;
+  --piano-pink-300: #f9a8d4;
+  --piano-pink-400: #f472b6;
+  --piano-pink-soft: rgba(219, 39, 119, 0.14);
+
+  --piano-cyan: #0891b2;
+  --piano-cyan-300: #67e8f9;
+  --piano-cyan-400: #22d3ee;
+  --piano-cyan-soft: rgba(8, 145, 178, 0.14);
+
+  /* Semantic state colors (judgment tiers) */
+  --state-success: #22d3ee;  /* Perfect ±50ms → cyan */
+  --state-info: #8b5cf6;     /* Great ±100ms → purple */
+  --state-warning: #db2777;  /* Good ±150ms → pink */
+  --state-error: #f43f5e;    /* Miss → red */
+
+  /* Radius scale (restrained) */
+  --piano-radius-sm: 4px;
+  --piano-radius-md: 8px;
+  --piano-radius-lg: 16px;
+  --piano-radius-full: 9999px;
+
+  /* Typography */
+  --piano-font-display: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-body: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+}
+
+/* --- Light theme (high-contrast accessibility mode) --- */
+:root {
+  --piano-background: #ffffff;
+  --piano-foreground: #0b0a14;
+  --piano-card: #f6f7fb;
+  --piano-card-foreground: #16182d;
+  --piano-popover: #ffffff;
+  --piano-popover-foreground: #0b0a14;
+  --piano-muted: #eef0f7;
+  --piano-muted-foreground: #6a6c80;
+  --piano-border: #e7e8f0;
+  --piano-input: #e7e8f0;
+  --piano-ring: #6d28d9;
+  --piano-primary: #6d28d9;
+  --piano-primary-foreground: #ffffff;
+
+  /* Semantic aliases for fill-html-head.mjs */
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Dark theme (default immersive mode) --- */
+.dark {
+  --piano-background: #0d0b1a;
+  --piano-foreground: #f4f1ff;
+  --piano-card: #16132a;
+  --piano-card-foreground: #ece8ff;
+  --piano-popover: #1d1936;
+  --piano-popover-foreground: #f4f1ff;
+  --piano-muted: #1d1936;
+  --piano-muted-foreground: #a89fcf;
+  --piano-border: #2a2545;
+  --piano-input: #2a2545;
+  --piano-ring: #8b5cf6;
+  --piano-primary: #8b5cf6;
+  --piano-primary-foreground: #ffffff;
+
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Semantic token fallback (fill-html-head.mjs marker) --- */
+#semantic-token-fallback {
+  --background: var(--piano-background);
+  --foreground: var(--piano-foreground);
+  --card: var(--piano-card);
+  --card-foreground: var(--piano-card-foreground);
+  --popover: var(--piano-popover);
+  --popover-foreground: var(--piano-popover-foreground);
+  --muted: var(--piano-muted);
+  --muted-foreground: var(--piano-muted-foreground);
+  --border: var(--piano-border);
+  --input: var(--piano-input);
+  --ring: var(--piano-ring);
+  --primary: var(--piano-primary);
+  --primary-foreground: var(--piano-primary-foreground);
+  --radius-sm: var(--piano-radius-sm);
+  --radius-md: var(--piano-radius-md);
+  --radius-lg: var(--piano-radius-lg);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--piano-background);
+    --color-foreground: var(--piano-foreground);
+    --color-card: var(--piano-card);
+    --color-card-foreground: var(--piano-card-foreground);
+    --color-popover: var(--piano-popover);
+    --color-popover-foreground: var(--piano-popover-foreground);
+    --color-primary: var(--piano-primary);
+    --color-primary-foreground: var(--piano-primary-foreground);
+    --color-muted: var(--piano-muted);
+    --color-muted-foreground: var(--piano-muted-foreground);
+    --color-border: var(--piano-border);
+    --color-input: var(--piano-input);
+    --color-ring: var(--piano-ring);
+    --radius-sm: var(--piano-radius-sm);
+    --radius-md: var(--piano-radius-md);
+    --radius-lg: var(--piano-radius-lg);
+  }
+  @layer base {
+    body { background: var(--piano-background); color: var(--piano-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--piano-background); }
+      .text-background { color: var(--piano-background); }
+      .border-background { border-color: var(--piano-background); }
+      .ring-background { --tw-ring-color: var(--piano-background); }
+      .bg-foreground { background-color: var(--piano-foreground); }
+      .text-foreground { color: var(--piano-foreground); }
+      .border-foreground { border-color: var(--piano-foreground); }
+      .ring-foreground { --tw-ring-color: var(--piano-foreground); }
+      .bg-card { background-color: var(--piano-card); }
+      .text-card { color: var(--piano-card); }
+      .border-card { border-color: var(--piano-card); }
+      .ring-card { --tw-ring-color: var(--piano-card); }
+      .bg-card-foreground { background-color: var(--piano-card-foreground); }
+      .text-card-foreground { color: var(--piano-card-foreground); }
+      .border-card-foreground { border-color: var(--piano-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--piano-card-foreground); }
+      .bg-popover { background-color: var(--piano-popover); }
+      .text-popover { color: var(--piano-popover); }
+      .border-popover { border-color: var(--piano-popover); }
+      .ring-popover { --tw-ring-color: var(--piano-popover); }
+      .bg-popover-foreground { background-color: var(--piano-popover-foreground); }
+      .text-popover-foreground { color: var(--piano-popover-foreground); }
+      .border-popover-foreground { border-color: var(--piano-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--piano-popover-foreground); }
+      .bg-primary { background-color: var(--piano-primary); }
+      .text-primary { color: var(--piano-primary); }
+      .border-primary { border-color: var(--piano-primary); }
+      .ring-primary { --tw-ring-color: var(--piano-primary); }
+      .bg-primary-foreground { background-color: var(--piano-primary-foreground); }
+      .text-primary-foreground { color: var(--piano-primary-foreground); }
+      .border-primary-foreground { border-color: var(--piano-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--piano-primary-foreground); }
+      .bg-muted { background-color: var(--piano-muted); }
+      .text-muted { color: var(--piano-muted); }
+      .border-muted { border-color: var(--piano-muted); }
+      .ring-muted { --tw-ring-color: var(--piano-muted); }
+      .bg-muted-foreground { background-color: var(--piano-muted-foreground); }
+      .text-muted-foreground { color: var(--piano-muted-foreground); }
+      .border-muted-foreground { border-color: var(--piano-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--piano-muted-foreground); }
+      .bg-border { background-color: var(--piano-border); }
+      .text-border { color: var(--piano-border); }
+      .border-border { border-color: var(--piano-border); }
+      .ring-border { --tw-ring-color: var(--piano-border); }
+      .bg-input { background-color: var(--piano-input); }
+      .text-input { color: var(--piano-input); }
+      .border-input { border-color: var(--piano-input); }
+      .ring-input { --tw-ring-color: var(--piano-input); }
+      .bg-ring { background-color: var(--piano-ring); }
+      .text-ring { color: var(--piano-ring); }
+      .border-ring { border-color: var(--piano-ring); }
+      .ring-ring { --tw-ring-color: var(--piano-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="relative h-screen overflow-hidden">
+        <!-- Shared background -->
+        <div class="fixed inset-0 -z-10" style="background: radial-gradient(ellipse at 50% 0%, var(--piano-purple-700), var(--piano-background) 70%);"></div>
+
+        <!-- App shell -->
+        <div data-viewport-mode="app-shell" class="h-full overflow-hidden min-h-0 flex flex-col">
+            <!-- ============ TOP BAR (56px) ============ -->
+            <header class="h-14 shrink-0 flex items-center px-4 relative z-40" style="background: var(--piano-card); border-bottom: 1px solid var(--piano-border);">
+                <!-- Left: brand -->
+                <a href="#" data-dom-id="back-home" class="shrink-0 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">键琴</a>
+                <!-- Center: nav -->
+                <nav class="flex-1 flex items-center justify-center gap-8">
+                    <a href="#" data-nav-key="home" data-dom-id="nav-home" class="text-sm whitespace-nowrap" style="color: var(--piano-muted-foreground);">首页</a>
+                    <a href="#" data-nav-key="library" data-dom-id="nav-library" class="text-sm whitespace-nowrap" style="color: var(--piano-muted-foreground);">曲库</a>
+                    <a href="#" data-nav-key="settings" data-dom-id="nav-settings" class="text-sm whitespace-nowrap" style="color: var(--piano-muted-foreground);">设置</a>
+                </nav>
+                <!-- Right: icon buttons -->
+                <div class="shrink-0 flex items-center gap-1">
+                    <button class="w-9 h-9 flex items-center justify-center rounded-md transition-colors hover:bg-white/5" style="color: var(--piano-muted-foreground);">
+                        <i data-lucide="palette" style="width:16px;height:16px;"></i>
+                    </button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-md transition-colors hover:bg-white/5" style="color: var(--piano-muted-foreground);">
+                        <i data-lucide="help-circle" style="width:16px;height:16px;"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ============ Content area ============ -->
+            <div class="flex-1 flex flex-col min-h-0 overflow-y-auto" data-scroll-region="primary">
+                <!-- ===== SONG INFO BAR (48px) ===== -->
+                <div class="h-12 shrink-0 flex items-center gap-4 px-4" style="background: var(--piano-card); border-bottom: 1px solid var(--piano-border);">
+                    <span class="whitespace-nowrap truncate" style="font-family: var(--piano-font-display); font-size: 16px; font-weight: 600; color: var(--piano-foreground);">小星星</span>
+                    <span class="inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 shrink-0" style="background: var(--piano-cyan-soft); color: var(--piano-cyan-400); font-size: 11px;">入门</span>
+                    <span class="whitespace-nowrap shrink-0" style="font-family: var(--piano-font-mono); font-size: 12px; color: var(--piano-muted-foreground);">80 BPM</span>
+                    <div class="flex-1 min-w-0"></div>
+                    <button class="shrink-0 inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 whitespace-nowrap transition-colors hover:bg-white/5" style="border: 1px solid var(--piano-border); color: var(--piano-foreground);">
+                        <i data-lucide="pause" style="width:14px;height:14px;"></i>
+                        <span class="text-xs">暂停</span>
+                    </button>
+                    <button class="shrink-0 inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 whitespace-nowrap transition-colors hover:bg-white/5" style="border: 1px solid var(--piano-border); color: var(--piano-foreground);">
+                        <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i>
+                        <span class="text-xs">重弹</span>
+                    </button>
+                    <a href="#" data-dom-id="cta-results" class="shrink-0 inline-flex items-center rounded-md px-4 py-1.5 whitespace-nowrap transition-opacity hover:opacity-90" style="background: var(--piano-primary); color: var(--piano-primary-foreground); font-size: 13px; font-weight: 500;">结束本曲</a>
+                </div>
+
+                <!-- ===== HUD BAR (72px) ===== -->
+                <div class="h-[72px] shrink-0 flex items-center justify-between px-6">
+                    <!-- Left: Score -->
+                    <div class="flex flex-col">
+                        <span class="uppercase whitespace-nowrap" style="font-size: 10px; letter-spacing: 2px; color: var(--piano-muted-foreground);">SCORE</span>
+                        <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 28px; font-weight: 700; color: var(--piano-foreground); line-height: 1.1;">1,248,500</span>
+                    </div>
+                    <!-- Center: Combo -->
+                    <div class="flex flex-col items-center">
+                        <span class="uppercase whitespace-nowrap" style="font-size: 10px; letter-spacing: 2px; color: var(--piano-muted-foreground);">COMBO</span>
+                        <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 32px; font-weight: 700; color: var(--piano-purple-400); line-height: 1.1;">x42</span>
+                        <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">Perfect ±50ms · Great ±100ms · Good ±150ms</span>
+                    </div>
+                    <!-- Right: Accuracy -->
+                    <div class="flex flex-col items-end">
+                        <span class="uppercase whitespace-nowrap" style="font-size: 10px; letter-spacing: 2px; color: var(--piano-muted-foreground);">ACCURACY</span>
+                        <span class="whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 24px; font-weight: 700; color: var(--piano-foreground); line-height: 1.1;">98.2%</span>
+                        <div class="w-[120px] h-1 rounded-full mt-1" style="background: var(--piano-muted);">
+                            <div class="h-full rounded-full" style="width: 98%; background: linear-gradient(90deg, var(--piano-purple-500), var(--piano-pink));"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== FALLING NOTES HIGHWAY (flex-1) ===== -->
+                <div class="flex-1 relative overflow-hidden min-h-0" style="background: var(--piano-background);">
+                    <!-- 7 lanes -->
+                    <div class="absolute inset-0 flex">
+                        <!-- Lane 1: A -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">A</span>
+                            <!-- Note 1: A, top 30%, h40 -->
+                            <div class="absolute rounded-b-md flex items-center justify-center" style="left: 10%; width: 80%; top: 30%; height: 40px; background: linear-gradient(180deg, var(--piano-purple-400), var(--piano-purple-600)); border: 1px solid var(--piano-purple-300);">
+                                <span style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">A</span>
+                            </div>
+                        </div>
+                        <!-- Lane 2: S -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">S</span>
+                            <!-- Note 4: S, top 60%, h40 -->
+                            <div class="absolute rounded-b-md flex items-center justify-center" style="left: 10%; width: 80%; top: 60%; height: 40px; background: linear-gradient(180deg, var(--piano-purple-400), var(--piano-purple-600)); border: 1px solid var(--piano-purple-300);">
+                                <span style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">S</span>
+                            </div>
+                        </div>
+                        <!-- Lane 3: D -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">D</span>
+                            <!-- Note 2: D, top 45%, h40 -->
+                            <div class="absolute rounded-b-md flex items-center justify-center" style="left: 10%; width: 80%; top: 45%; height: 40px; background: linear-gradient(180deg, var(--piano-purple-400), var(--piano-purple-600)); border: 1px solid var(--piano-purple-300);">
+                                <span style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">D</span>
+                            </div>
+                        </div>
+                        <!-- Lane 4: F -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">F</span>
+                        </div>
+                        <!-- Lane 5: G -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">G</span>
+                            <!-- Note 3: G, top 15%, h60 -->
+                            <div class="absolute rounded-b-md flex items-center justify-center" style="left: 10%; width: 80%; top: 15%; height: 60px; background: linear-gradient(180deg, var(--piano-purple-400), var(--piano-purple-600)); border: 1px solid var(--piano-purple-300);">
+                                <span style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">G</span>
+                            </div>
+                        </div>
+                        <!-- Lane 6: H -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">H</span>
+                        </div>
+                        <!-- Lane 7: J -->
+                        <div class="note-lane flex-1 relative">
+                            <span class="block text-center pt-2" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-muted-foreground);">J</span>
+                            <!-- Note 5: J, top 25%, h40 -->
+                            <div class="absolute rounded-b-md flex items-center justify-center" style="left: 10%; width: 80%; top: 25%; height: 40px; background: linear-gradient(180deg, var(--piano-purple-400), var(--piano-purple-600)); border: 1px solid var(--piano-purple-300);">
+                                <span style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Black key notes (positioned relative to highway, spanning lane gaps) -->
+                    <!-- Note 6: W, between A-S, top 50%, h30 -->
+                    <div class="absolute rounded-b-md flex items-center justify-center" style="left: calc(75% / 7); width: calc(50% / 7); top: 50%; height: 30px; background: linear-gradient(180deg, var(--piano-pink-400), var(--piano-pink)); z-index: 5;">
+                        <span style="font-family: var(--piano-font-mono); font-size: 10px; font-weight: 700; color: white;">W</span>
+                    </div>
+                    <!-- Note 7: Y, between G-H, top 35%, h30 -->
+                    <div class="absolute rounded-b-md flex items-center justify-center" style="left: calc(475% / 7); width: calc(50% / 7); top: 35%; height: 30px; background: linear-gradient(180deg, var(--piano-pink-400), var(--piano-pink)); z-index: 5;">
+                        <span style="font-family: var(--piano-font-mono); font-size: 10px; font-weight: 700; color: white;">Y</span>
+                    </div>
+
+                    <!-- Judgment line -->
+                    <div class="absolute left-0 right-0" style="bottom: 160px; height: 3px; background: linear-gradient(90deg, var(--piano-cyan-400), var(--piano-pink)); box-shadow: 0 0 20px var(--piano-cyan-400); z-index: 10;"></div>
+
+                    <!-- Judgment popup -->
+                    <div class="absolute" style="bottom: 180px; left: 50%; transform: translateX(-50%); font-family: var(--piano-font-display); font-size: 24px; font-weight: 700; color: var(--state-success); text-shadow: 0 0 20px var(--state-success); z-index: 11; animation: float-up 320ms ease-out; white-space: nowrap;">Perfect!</div>
+                </div>
+
+                <!-- ===== PIANO KEYBOARD BAR (160px) ===== -->
+                <div class="h-40 shrink-0 flex relative" style="background: var(--piano-card); border-top: 1px solid var(--piano-border);">
+                    <!-- 7 white keys -->
+                    <div class="white-key flex-1 relative" style="background: var(--piano-card-foreground);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">A</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">C4</div>
+                        </div>
+                    </div>
+                    <div class="white-key flex-1 relative" style="background: var(--piano-card-foreground);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">S</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">D4</div>
+                        </div>
+                    </div>
+                    <!-- D key — highlighted state -->
+                    <div class="white-key flex-1 relative" style="background: var(--piano-purple-500);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: white;">D</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: white;">E4</div>
+                        </div>
+                    </div>
+                    <div class="white-key flex-1 relative" style="background: var(--piano-card-foreground);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">F</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">F4</div>
+                        </div>
+                    </div>
+                    <div class="white-key flex-1 relative" style="background: var(--piano-card-foreground);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">G</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">G4</div>
+                        </div>
+                    </div>
+                    <div class="white-key flex-1 relative" style="background: var(--piano-card-foreground);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">H</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">A4</div>
+                        </div>
+                    </div>
+                    <div class="white-key flex-1 relative" style="background: var(--piano-card-foreground);">
+                        <div class="absolute bottom-2 left-0 right-0 text-center">
+                            <div style="font-family: var(--piano-font-mono); font-size: 16px; font-weight: 700; color: var(--piano-muted-foreground);">J</div>
+                            <div style="font-family: var(--piano-font-mono); font-size: 10px; color: var(--piano-muted-foreground);">B4</div>
+                        </div>
+                    </div>
+
+                    <!-- 5 black keys (absolute, positioned over white key gaps) -->
+                    <!-- W/C#4 — between A-S -->
+                    <div class="absolute" style="left: calc(70% / 7); width: calc(60% / 7); height: 60%; background: var(--piano-foreground); border-radius: 0 0 4px 4px; z-index: 2;">
+                        <div class="absolute bottom-1.5 left-0 right-0 text-center" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">W</div>
+                    </div>
+                    <!-- E/D#4 — between S-D -->
+                    <div class="absolute" style="left: calc(170% / 7); width: calc(60% / 7); height: 60%; background: var(--piano-foreground); border-radius: 0 0 4px 4px; z-index: 2;">
+                        <div class="absolute bottom-1.5 left-0 right-0 text-center" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">E</div>
+                    </div>
+                    <!-- T/F#4 — between F-G -->
+                    <div class="absolute" style="left: calc(370% / 7); width: calc(60% / 7); height: 60%; background: var(--piano-foreground); border-radius: 0 0 4px 4px; z-index: 2;">
+                        <div class="absolute bottom-1.5 left-0 right-0 text-center" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">T</div>
+                    </div>
+                    <!-- Y/G#4 — between G-H -->
+                    <div class="absolute" style="left: calc(470% / 7); width: calc(60% / 7); height: 60%; background: var(--piano-foreground); border-radius: 0 0 4px 4px; z-index: 2;">
+                        <div class="absolute bottom-1.5 left-0 right-0 text-center" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">Y</div>
+                    </div>
+                    <!-- U/A#4 — between H-J -->
+                    <div class="absolute" style="left: calc(570% / 7); width: calc(60% / 7); height: 60%; background: var(--piano-foreground); border-radius: 0 0 4px 4px; z-index: 2;">
+                        <div class="absolute bottom-1.5 left-0 right-0 text-center" style="font-family: var(--piano-font-mono); font-size: 12px; font-weight: 700; color: white;">U</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SCORE PANEL (floating, absolute) ===== -->
+        <div class="absolute z-30" style="right: 16px; top: 120px; width: 200px; background: var(--piano-card); border: 1px solid var(--piano-border); border-radius: var(--piano-radius-md); padding: 12px;">
+            <div class="mb-2.5" style="font-size: 12px; color: var(--piano-muted-foreground);">判定统计</div>
+            <div class="flex justify-between items-center mb-1.5" style="font-family: var(--piano-font-mono); font-size: 12px;">
+                <span style="color: var(--state-success);">Perfect</span>
+                <span style="color: var(--state-success);">156</span>
+            </div>
+            <div class="flex justify-between items-center mb-1.5" style="font-family: var(--piano-font-mono); font-size: 12px;">
+                <span style="color: var(--state-info);">Great</span>
+                <span style="color: var(--state-info);">60</span>
+            </div>
+            <div class="flex justify-between items-center mb-1.5" style="font-family: var(--piano-font-mono); font-size: 12px;">
+                <span style="color: var(--state-warning);">Good</span>
+                <span style="color: var(--state-warning);">17</span>
+            </div>
+            <div class="flex justify-between items-center" style="font-family: var(--piano-font-mono); font-size: 12px;">
+                <span style="color: var(--state-error);">Miss</span>
+                <span style="color: var(--state-error);">7</span>
+            </div>
+        </div>
+    </main>
+    <style>
+        @keyframes float-up {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+        }
+        .note-lane { border-right: 1px solid color-mix(in srgb, var(--piano-border) 50%, transparent); }
+        .note-lane:last-child { border-right: none; }
+        .white-key { border-right: 1px solid var(--piano-border); }
+        .white-key:last-child { border-right: none; }
+    </style>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

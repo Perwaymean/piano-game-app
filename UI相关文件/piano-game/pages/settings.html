@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置 · 键琴</title>
+    <style id="theme-vars">
+/* ============================================================
+   键盘弹钢琴 — 品牌设计 Token
+   prefix: piano | theme: dark (default) / light (high-contrast)
+   ============================================================ */
+
+/* --- @font-face (absolute URL, no @import) --- */
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-700-normal.woff2') format('woff2');
+}
+
+/* --- @theme inline (fill-html-head.mjs semantic marker) --- */
+@theme inline {
+  --color-piano-purple: #6d28d9;
+  --color-piano-pink: #db2777;
+  --color-piano-cyan: #0891b2;
+}
+
+/* --- Brand Color Scale --- */
+:root {
+  --piano-purple: #6d28d9;
+  --piano-purple-300: #c4b5fd;
+  --piano-purple-400: #a78bfa;
+  --piano-purple-500: #8b5cf6;
+  --piano-purple-600: #7c3aed;
+  --piano-purple-700: #5b21b6;
+
+  --piano-pink: #db2777;
+  --piano-pink-300: #f9a8d4;
+  --piano-pink-400: #f472b6;
+  --piano-pink-soft: rgba(219, 39, 119, 0.14);
+
+  --piano-cyan: #0891b2;
+  --piano-cyan-300: #67e8f9;
+  --piano-cyan-400: #22d3ee;
+  --piano-cyan-soft: rgba(8, 145, 178, 0.14);
+
+  /* Semantic state colors (judgment tiers) */
+  --state-success: #22d3ee;  /* Perfect ±50ms → cyan */
+  --state-info: #8b5cf6;     /* Great ±100ms → purple */
+  --state-warning: #db2777;  /* Good ±150ms → pink */
+  --state-error: #f43f5e;    /* Miss → red */
+
+  /* Radius scale (restrained) */
+  --piano-radius-sm: 4px;
+  --piano-radius-md: 8px;
+  --piano-radius-lg: 16px;
+  --piano-radius-full: 9999px;
+
+  /* Typography */
+  --piano-font-display: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-body: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+}
+
+/* --- Light theme (high-contrast accessibility mode) --- */
+:root {
+  --piano-background: #ffffff;
+  --piano-foreground: #0b0a14;
+  --piano-card: #f6f7fb;
+  --piano-card-foreground: #16182d;
+  --piano-popover: #ffffff;
+  --piano-popover-foreground: #0b0a14;
+  --piano-muted: #eef0f7;
+  --piano-muted-foreground: #6a6c80;
+  --piano-border: #e7e8f0;
+  --piano-input: #e7e8f0;
+  --piano-ring: #6d28d9;
+  --piano-primary: #6d28d9;
+  --piano-primary-foreground: #ffffff;
+
+  /* Semantic aliases for fill-html-head.mjs */
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Dark theme (default immersive mode) --- */
+.dark {
+  --piano-background: #0d0b1a;
+  --piano-foreground: #f4f1ff;
+  --piano-card: #16132a;
+  --piano-card-foreground: #ece8ff;
+  --piano-popover: #1d1936;
+  --piano-popover-foreground: #f4f1ff;
+  --piano-muted: #1d1936;
+  --piano-muted-foreground: #a89fcf;
+  --piano-border: #2a2545;
+  --piano-input: #2a2545;
+  --piano-ring: #8b5cf6;
+  --piano-primary: #8b5cf6;
+  --piano-primary-foreground: #ffffff;
+
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Semantic token fallback (fill-html-head.mjs marker) --- */
+#semantic-token-fallback {
+  --background: var(--piano-background);
+  --foreground: var(--piano-foreground);
+  --card: var(--piano-card);
+  --card-foreground: var(--piano-card-foreground);
+  --popover: var(--piano-popover);
+  --popover-foreground: var(--piano-popover-foreground);
+  --muted: var(--piano-muted);
+  --muted-foreground: var(--piano-muted-foreground);
+  --border: var(--piano-border);
+  --input: var(--piano-input);
+  --ring: var(--piano-ring);
+  --primary: var(--piano-primary);
+  --primary-foreground: var(--piano-primary-foreground);
+  --radius-sm: var(--piano-radius-sm);
+  --radius-md: var(--piano-radius-md);
+  --radius-lg: var(--piano-radius-lg);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--piano-background);
+    --color-foreground: var(--piano-foreground);
+    --color-card: var(--piano-card);
+    --color-card-foreground: var(--piano-card-foreground);
+    --color-popover: var(--piano-popover);
+    --color-popover-foreground: var(--piano-popover-foreground);
+    --color-primary: var(--piano-primary);
+    --color-primary-foreground: var(--piano-primary-foreground);
+    --color-muted: var(--piano-muted);
+    --color-muted-foreground: var(--piano-muted-foreground);
+    --color-border: var(--piano-border);
+    --color-input: var(--piano-input);
+    --color-ring: var(--piano-ring);
+    --radius-sm: var(--piano-radius-sm);
+    --radius-md: var(--piano-radius-md);
+    --radius-lg: var(--piano-radius-lg);
+  }
+  @layer base {
+    body { background: var(--piano-background); color: var(--piano-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--piano-background); }
+      .text-background { color: var(--piano-background); }
+      .border-background { border-color: var(--piano-background); }
+      .ring-background { --tw-ring-color: var(--piano-background); }
+      .bg-foreground { background-color: var(--piano-foreground); }
+      .text-foreground { color: var(--piano-foreground); }
+      .border-foreground { border-color: var(--piano-foreground); }
+      .ring-foreground { --tw-ring-color: var(--piano-foreground); }
+      .bg-card { background-color: var(--piano-card); }
+      .text-card { color: var(--piano-card); }
+      .border-card { border-color: var(--piano-card); }
+      .ring-card { --tw-ring-color: var(--piano-card); }
+      .bg-card-foreground { background-color: var(--piano-card-foreground); }
+      .text-card-foreground { color: var(--piano-card-foreground); }
+      .border-card-foreground { border-color: var(--piano-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--piano-card-foreground); }
+      .bg-popover { background-color: var(--piano-popover); }
+      .text-popover { color: var(--piano-popover); }
+      .border-popover { border-color: var(--piano-popover); }
+      .ring-popover { --tw-ring-color: var(--piano-popover); }
+      .bg-popover-foreground { background-color: var(--piano-popover-foreground); }
+      .text-popover-foreground { color: var(--piano-popover-foreground); }
+      .border-popover-foreground { border-color: var(--piano-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--piano-popover-foreground); }
+      .bg-primary { background-color: var(--piano-primary); }
+      .text-primary { color: var(--piano-primary); }
+      .border-primary { border-color: var(--piano-primary); }
+      .ring-primary { --tw-ring-color: var(--piano-primary); }
+      .bg-primary-foreground { background-color: var(--piano-primary-foreground); }
+      .text-primary-foreground { color: var(--piano-primary-foreground); }
+      .border-primary-foreground { border-color: var(--piano-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--piano-primary-foreground); }
+      .bg-muted { background-color: var(--piano-muted); }
+      .text-muted { color: var(--piano-muted); }
+      .border-muted { border-color: var(--piano-muted); }
+      .ring-muted { --tw-ring-color: var(--piano-muted); }
+      .bg-muted-foreground { background-color: var(--piano-muted-foreground); }
+      .text-muted-foreground { color: var(--piano-muted-foreground); }
+      .border-muted-foreground { border-color: var(--piano-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--piano-muted-foreground); }
+      .bg-border { background-color: var(--piano-border); }
+      .text-border { color: var(--piano-border); }
+      .border-border { border-color: var(--piano-border); }
+      .ring-border { --tw-ring-color: var(--piano-border); }
+      .bg-input { background-color: var(--piano-input); }
+      .text-input { color: var(--piano-input); }
+      .border-input { border-color: var(--piano-input); }
+      .ring-input { --tw-ring-color: var(--piano-input); }
+      .bg-ring { background-color: var(--piano-ring); }
+      .text-ring { color: var(--piano-ring); }
+      .border-ring { border-color: var(--piano-ring); }
+      .ring-ring { --tw-ring-color: var(--piano-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- Fixed shared background -->
+      <div aria-hidden="true" class="fixed inset-0 -z-10 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, var(--piano-purple-700), var(--piano-background) 70%);"></div>
+
+      <!-- Shared top bar -->
+      <header class="fixed top-0 inset-x-0 z-50 h-14 flex items-center justify-between gap-2 px-4 sm:px-6" style="background: var(--piano-card); border-bottom: 1px solid var(--piano-border);">
+        <a href="#" data-dom-id="back-home" class="shrink-0 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">键琴</a>
+        <nav class="flex items-center gap-3 sm:gap-6">
+          <a href="#" data-nav-key="home" data-dom-id="nav-home" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">首页</a>
+          <a href="#" data-nav-key="library" data-dom-id="nav-library" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">曲库</a>
+          <a href="#" data-nav-key="settings" data-dom-id="nav-settings" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-primary); font-weight: 600;">设置</a>
+        </nav>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" aria-label="切换主题" class="inline-flex items-center justify-center h-9 w-9 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">
+            <i data-lucide="palette" class="h-5 w-5"></i>
+          </button>
+          <button type="button" aria-label="帮助" class="inline-flex items-center justify-center h-9 w-9 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">
+            <i data-lucide="help-circle" class="h-5 w-5"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page layout -->
+      <div class="max-w-[900px] mx-auto px-4 sm:px-6 pt-20 pb-12">
+        <div class="lg:flex lg:gap-8">
+          <!-- Left nav -->
+          <aside class="lg:w-[200px] lg:shrink-0 lg:self-start lg:sticky lg:top-20 mb-4 lg:mb-0">
+            <nav class="flex lg:flex-col gap-1 overflow-x-auto no-scrollbar lg:overflow-visible pb-2 lg:pb-0">
+              <a href="#visual-style" class="shrink-0 whitespace-nowrap py-2 px-4 rounded-md transition-opacity hover:opacity-80" style="background: var(--piano-card); color: var(--piano-primary); border-left: 3px solid var(--piano-primary);">视觉风格</a>
+              <a href="#audio" class="shrink-0 whitespace-nowrap py-2 px-4 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground); border-left: 3px solid transparent;">音频</a>
+              <a href="#accessibility" class="shrink-0 whitespace-nowrap py-2 px-4 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground); border-left: 3px solid transparent;">无障碍</a>
+              <a href="#about" class="shrink-0 whitespace-nowrap py-2 px-4 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground); border-left: 3px solid transparent;">关于</a>
+            </nav>
+          </aside>
+
+          <!-- Right content -->
+          <div class="flex-1 min-w-0">
+
+            <!-- Section A: 视觉风格 -->
+            <section id="visual-style">
+              <h2 class="mb-4 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">视觉风格</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <!-- 星空 (selected) -->
+                <div class="relative cursor-pointer rounded-md p-4 flex flex-col gap-3" style="border: 2px solid var(--piano-primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--piano-primary) 22%, transparent);">
+                  <span class="absolute top-2 right-2" style="color: var(--piano-primary);">
+                    <i data-lucide="check-circle" class="h-5 w-5"></i>
+                  </span>
+                  <div class="h-[60px] rounded-sm" style="background: linear-gradient(135deg, var(--piano-purple-700), var(--piano-background));"></div>
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="truncate" style="font-family: var(--piano-font-body); font-size: 14px; font-weight: 600; color: var(--piano-foreground);">星空</span>
+                    <span class="truncate" style="font-family: var(--piano-font-body); font-size: 11px; color: var(--piano-muted-foreground);">深紫宇宙 · 星点粒子</span>
+                  </div>
+                </div>
+                <!-- 樱花 -->
+                <div class="relative cursor-pointer rounded-md p-4 flex flex-col gap-3 transition-colors hover:opacity-90" style="border: 2px solid var(--piano-border);">
+                  <div class="h-[60px] rounded-sm" style="background: linear-gradient(135deg, var(--piano-pink), var(--piano-purple-600));"></div>
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="truncate" style="font-family: var(--piano-font-body); font-size: 14px; font-weight: 600; color: var(--piano-foreground);">樱花</span>
+                    <span class="truncate" style="font-family: var(--piano-font-body); font-size: 11px; color: var(--piano-muted-foreground);">粉色飘落 · 柔和氛围</span>
+                  </div>
+                </div>
+                <!-- 赛博 -->
+                <div class="relative cursor-pointer rounded-md p-4 flex flex-col gap-3 transition-colors hover:opacity-90" style="border: 2px solid var(--piano-border);">
+                  <div class="h-[60px] rounded-sm" style="background: linear-gradient(135deg, var(--piano-cyan), var(--piano-purple-700));"></div>
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="truncate" style="font-family: var(--piano-font-body); font-size: 14px; font-weight: 600; color: var(--piano-foreground);">赛博</span>
+                    <span class="truncate" style="font-family: var(--piano-font-body); font-size: 11px; color: var(--piano-muted-foreground);">霓虹网格 · 赛博朋克</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section B: 音频 -->
+            <section id="audio" class="mt-8">
+              <h2 class="mb-4 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">音频</h2>
+              <div class="rounded-md p-4 sm:p-5 flex flex-col" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+                <!-- Row 1: 默认音色 -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4">
+                  <span class="text-sm whitespace-nowrap shrink-0" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">默认音色</span>
+                  <div class="flex flex-wrap gap-1">
+                    <button type="button" class="px-3 py-1.5 rounded-md text-[13px] whitespace-nowrap" style="background: var(--piano-primary); color: var(--piano-primary-foreground); border: 1px solid var(--piano-primary);">三角钢琴</button>
+                    <button type="button" class="px-3 py-1.5 rounded-md text-[13px] whitespace-nowrap transition-opacity hover:opacity-80" style="border: 1px solid var(--piano-border); color: var(--piano-muted-foreground);">音乐盒</button>
+                    <button type="button" class="px-3 py-1.5 rounded-md text-[13px] whitespace-nowrap transition-opacity hover:opacity-80" style="border: 1px solid var(--piano-border); color: var(--piano-muted-foreground);">合成Pad</button>
+                    <button type="button" class="px-3 py-1.5 rounded-md text-[13px] whitespace-nowrap transition-opacity hover:opacity-80" style="border: 1px solid var(--piano-border); color: var(--piano-muted-foreground);">8-bit</button>
+                  </div>
+                </div>
+                <!-- Row 2: 力度映射 -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <span class="text-sm whitespace-nowrap shrink-0" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">力度映射</span>
+                  <select class="rounded-md px-3 py-2 text-sm cursor-pointer" style="background: var(--piano-card); border: 1px solid var(--piano-border); color: var(--piano-foreground); font-family: var(--piano-font-body);">
+                    <option>线性</option>
+                    <option>指数</option>
+                    <option>分段</option>
+                  </select>
+                </div>
+                <!-- Row 3: 节拍器音量 -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <span class="text-sm whitespace-nowrap shrink-0" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">节拍器音量</span>
+                  <div class="flex items-center gap-3 flex-1 sm:flex-none sm:max-w-[260px]">
+                    <input type="range" min="0" max="100" value="70" class="piano-range flex-1" aria-label="节拍器音量" />
+                    <span class="w-8 text-right whitespace-nowrap" style="font-family: var(--piano-font-mono); font-size: 14px; color: var(--piano-foreground);">70</span>
+                  </div>
+                </div>
+                <!-- Row 4: 延迟校准 -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <span class="text-sm whitespace-nowrap shrink-0" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">延迟校准</span>
+                  <div class="flex items-center gap-2 shrink-0">
+                    <input type="number" value="0" class="w-[80px] rounded-md px-3 py-2" style="background: var(--piano-card); border: 1px solid var(--piano-border); color: var(--piano-foreground); font-family: var(--piano-font-mono); font-size: 14px;" aria-label="延迟校准毫秒数" />
+                    <span class="text-sm whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">ms</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section C: 无障碍 -->
+            <section id="accessibility" class="mt-8">
+              <h2 class="mb-4 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">无障碍</h2>
+              <div class="rounded-md p-4 sm:p-5 flex flex-col" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+                <!-- Row 1: 高对比模式 (OFF) -->
+                <div class="flex items-center justify-between gap-3 py-4">
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-sm whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">高对比模式</span>
+                    <span class="text-xs truncate" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">切换至浅色高对比主题</span>
+                  </div>
+                  <label class="piano-toggle">
+                    <input type="checkbox" aria-label="高对比模式" />
+                    <span class="piano-toggle-track"></span>
+                  </label>
+                </div>
+                <!-- Row 2: 键盘可达 (ON) -->
+                <div class="flex items-center justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-sm whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">键盘可达</span>
+                    <span class="text-xs truncate" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">所有控件支持 Tab 键聚焦</span>
+                  </div>
+                  <label class="piano-toggle">
+                    <input type="checkbox" checked aria-label="键盘可达" />
+                    <span class="piano-toggle-track"></span>
+                  </label>
+                </div>
+                <!-- Row 3: 振动反馈 (OFF) -->
+                <div class="flex items-center justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-sm whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">振动反馈</span>
+                    <span class="text-xs truncate" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">按键时触发设备振动（移动端）</span>
+                  </div>
+                  <label class="piano-toggle">
+                    <input type="checkbox" aria-label="振动反馈" />
+                    <span class="piano-toggle-track"></span>
+                  </label>
+                </div>
+                <!-- Row 4: 色弱友好 (OFF) -->
+                <div class="flex items-center justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-sm whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">色弱友好</span>
+                    <span class="text-xs truncate" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">使用更高对比度的判定色</span>
+                  </div>
+                  <label class="piano-toggle">
+                    <input type="checkbox" aria-label="色弱友好" />
+                    <span class="piano-toggle-track"></span>
+                  </label>
+                </div>
+                <!-- Row 5: 减少动效 (ON) -->
+                <div class="flex items-center justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-sm whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">减少动效</span>
+                    <span class="text-xs flex items-center gap-1 min-w-0" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">
+                      <i data-lucide="info" class="h-3.5 w-3.5 shrink-0"></i>
+                      <span class="truncate">尊重 prefers-reduced-motion 系统设置</span>
+                    </span>
+                  </div>
+                  <label class="piano-toggle">
+                    <input type="checkbox" checked aria-label="减少动效" />
+                    <span class="piano-toggle-track"></span>
+                  </label>
+                </div>
+                <!-- Row 6: 摄像头画中画 (OFF) -->
+                <div class="flex items-center justify-between gap-3 py-4" style="border-top: 1px solid var(--piano-border);">
+                  <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-sm flex items-center gap-1.5 whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">
+                      <i data-lucide="camera" class="h-4 w-4 shrink-0"></i>
+                      摄像头画中画
+                    </span>
+                    <span class="text-xs truncate" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">仅本地显示，不上传</span>
+                  </div>
+                  <label class="piano-toggle">
+                    <input type="checkbox" aria-label="摄像头画中画" />
+                    <span class="piano-toggle-track"></span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section D: 关于 -->
+            <section id="about" class="mt-8">
+              <h2 class="mb-4 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">关于</h2>
+              <div class="rounded-md p-4 sm:p-5 flex flex-col" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+                <div class="flex items-center justify-between gap-3 py-3">
+                  <span class="text-[13px] whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">版本</span>
+                  <span class="text-[13px] whitespace-nowrap" style="font-family: var(--piano-font-mono); color: var(--piano-muted-foreground);">v1.0.0</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 py-3" style="border-top: 1px solid var(--piano-border);">
+                  <span class="text-[13px] whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">技术架构</span>
+                  <span class="text-[13px] whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">纯前端 · 零后端 · 零依赖</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 py-3" style="border-top: 1px solid var(--piano-border);">
+                  <span class="text-[13px] whitespace-nowrap" style="font-family: var(--piano-font-body); color: var(--piano-foreground);">错误码参考</span>
+                  <a href="#" class="text-[13px] whitespace-nowrap transition-opacity hover:opacity-80 inline-flex items-center gap-1" style="font-family: var(--piano-font-body); color: var(--piano-purple-400);">查看 <i data-lucide="external-link" class="h-3.5 w-3.5"></i></a>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center py-6 mt-4">
+          <p class="text-xs" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">键琴 · 纯前端零后端</p>
+        </footer>
+      </div>
+    </main>
+    <style>
+      /* Toggle switch — pure CSS, no JS */
+      .piano-toggle { position: relative; display: inline-flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+      .piano-toggle input { position: absolute; opacity: 0; width: 0; height: 0; margin: 0; }
+      .piano-toggle-track { width: 44px; height: 24px; border-radius: var(--piano-radius-full); background: var(--piano-border); position: relative; transition: background 0.2s ease; flex-shrink: 0; }
+      .piano-toggle-track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: var(--piano-radius-full); background: var(--piano-primary-foreground); transition: transform 0.2s ease; }
+      .piano-toggle input:checked ~ .piano-toggle-track { background: var(--piano-primary); }
+      .piano-toggle input:checked ~ .piano-toggle-track::after { transform: translateX(20px); }
+      .piano-toggle input:focus-visible ~ .piano-toggle-track { outline: 2px solid var(--piano-ring); outline-offset: 2px; }
+      /* Range slider accent */
+      .piano-range { accent-color: var(--piano-primary); height: 4px; cursor: pointer; }
+      @media (prefers-reduced-motion: reduce) {
+        .piano-toggle-track, .piano-toggle-track::after { transition: none; }
+      }
+    </style>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

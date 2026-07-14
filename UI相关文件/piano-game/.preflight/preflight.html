@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preflight</title>
+    <style id="theme-vars">
+/* ============================================================
+   键盘弹钢琴 — 品牌设计 Token
+   prefix: piano | theme: dark (default) / light (high-contrast)
+   ============================================================ */
+
+/* --- @font-face (absolute URL, no @import) --- */
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-700-normal.woff2') format('woff2');
+}
+
+/* --- @theme inline (fill-html-head.mjs semantic marker) --- */
+@theme inline {
+  --color-piano-purple: #6d28d9;
+  --color-piano-pink: #db2777;
+  --color-piano-cyan: #0891b2;
+}
+
+/* --- Brand Color Scale --- */
+:root {
+  --piano-purple: #6d28d9;
+  --piano-purple-300: #c4b5fd;
+  --piano-purple-400: #a78bfa;
+  --piano-purple-500: #8b5cf6;
+  --piano-purple-600: #7c3aed;
+  --piano-purple-700: #5b21b6;
+
+  --piano-pink: #db2777;
+  --piano-pink-300: #f9a8d4;
+  --piano-pink-400: #f472b6;
+  --piano-pink-soft: rgba(219, 39, 119, 0.14);
+
+  --piano-cyan: #0891b2;
+  --piano-cyan-300: #67e8f9;
+  --piano-cyan-400: #22d3ee;
+  --piano-cyan-soft: rgba(8, 145, 178, 0.14);
+
+  /* Semantic state colors (judgment tiers) */
+  --state-success: #22d3ee;  /* Perfect ±50ms → cyan */
+  --state-info: #8b5cf6;     /* Great ±100ms → purple */
+  --state-warning: #db2777;  /* Good ±150ms → pink */
+  --state-error: #f43f5e;    /* Miss → red */
+
+  /* Radius scale (restrained) */
+  --piano-radius-sm: 4px;
+  --piano-radius-md: 8px;
+  --piano-radius-lg: 16px;
+  --piano-radius-full: 9999px;
+
+  /* Typography */
+  --piano-font-display: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-body: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+}
+
+/* --- Light theme (high-contrast accessibility mode) --- */
+:root {
+  --piano-background: #ffffff;
+  --piano-foreground: #0b0a14;
+  --piano-card: #f6f7fb;
+  --piano-card-foreground: #16182d;
+  --piano-popover: #ffffff;
+  --piano-popover-foreground: #0b0a14;
+  --piano-muted: #eef0f7;
+  --piano-muted-foreground: #6a6c80;
+  --piano-border: #e7e8f0;
+  --piano-input: #e7e8f0;
+  --piano-ring: #6d28d9;
+  --piano-primary: #6d28d9;
+  --piano-primary-foreground: #ffffff;
+
+  /* Semantic aliases for fill-html-head.mjs */
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Dark theme (default immersive mode) --- */
+.dark {
+  --piano-background: #0d0b1a;
+  --piano-foreground: #f4f1ff;
+  --piano-card: #16132a;
+  --piano-card-foreground: #ece8ff;
+  --piano-popover: #1d1936;
+  --piano-popover-foreground: #f4f1ff;
+  --piano-muted: #1d1936;
+  --piano-muted-foreground: #a89fcf;
+  --piano-border: #2a2545;
+  --piano-input: #2a2545;
+  --piano-ring: #8b5cf6;
+  --piano-primary: #8b5cf6;
+  --piano-primary-foreground: #ffffff;
+
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Semantic token fallback (fill-html-head.mjs marker) --- */
+#semantic-token-fallback {
+  --background: var(--piano-background);
+  --foreground: var(--piano-foreground);
+  --card: var(--piano-card);
+  --card-foreground: var(--piano-card-foreground);
+  --popover: var(--piano-popover);
+  --popover-foreground: var(--piano-popover-foreground);
+  --muted: var(--piano-muted);
+  --muted-foreground: var(--piano-muted-foreground);
+  --border: var(--piano-border);
+  --input: var(--piano-input);
+  --ring: var(--piano-ring);
+  --primary: var(--piano-primary);
+  --primary-foreground: var(--piano-primary-foreground);
+  --radius-sm: var(--piano-radius-sm);
+  --radius-md: var(--piano-radius-md);
+  --radius-lg: var(--piano-radius-lg);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--piano-background);
+    --color-foreground: var(--piano-foreground);
+    --color-card: var(--piano-card);
+    --color-card-foreground: var(--piano-card-foreground);
+    --color-popover: var(--piano-popover);
+    --color-popover-foreground: var(--piano-popover-foreground);
+    --color-primary: var(--piano-primary);
+    --color-primary-foreground: var(--piano-primary-foreground);
+    --color-muted: var(--piano-muted);
+    --color-muted-foreground: var(--piano-muted-foreground);
+    --color-border: var(--piano-border);
+    --color-input: var(--piano-input);
+    --color-ring: var(--piano-ring);
+    --radius-sm: var(--piano-radius-sm);
+    --radius-md: var(--piano-radius-md);
+    --radius-lg: var(--piano-radius-lg);
+  }
+  @layer base {
+    body { background: var(--piano-background); color: var(--piano-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--piano-background); }
+      .text-background { color: var(--piano-background); }
+      .border-background { border-color: var(--piano-background); }
+      .ring-background { --tw-ring-color: var(--piano-background); }
+      .bg-foreground { background-color: var(--piano-foreground); }
+      .text-foreground { color: var(--piano-foreground); }
+      .border-foreground { border-color: var(--piano-foreground); }
+      .ring-foreground { --tw-ring-color: var(--piano-foreground); }
+      .bg-card { background-color: var(--piano-card); }
+      .text-card { color: var(--piano-card); }
+      .border-card { border-color: var(--piano-card); }
+      .ring-card { --tw-ring-color: var(--piano-card); }
+      .bg-card-foreground { background-color: var(--piano-card-foreground); }
+      .text-card-foreground { color: var(--piano-card-foreground); }
+      .border-card-foreground { border-color: var(--piano-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--piano-card-foreground); }
+      .bg-popover { background-color: var(--piano-popover); }
+      .text-popover { color: var(--piano-popover); }
+      .border-popover { border-color: var(--piano-popover); }
+      .ring-popover { --tw-ring-color: var(--piano-popover); }
+      .bg-popover-foreground { background-color: var(--piano-popover-foreground); }
+      .text-popover-foreground { color: var(--piano-popover-foreground); }
+      .border-popover-foreground { border-color: var(--piano-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--piano-popover-foreground); }
+      .bg-primary { background-color: var(--piano-primary); }
+      .text-primary { color: var(--piano-primary); }
+      .border-primary { border-color: var(--piano-primary); }
+      .ring-primary { --tw-ring-color: var(--piano-primary); }
+      .bg-primary-foreground { background-color: var(--piano-primary-foreground); }
+      .text-primary-foreground { color: var(--piano-primary-foreground); }
+      .border-primary-foreground { border-color: var(--piano-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--piano-primary-foreground); }
+      .bg-muted { background-color: var(--piano-muted); }
+      .text-muted { color: var(--piano-muted); }
+      .border-muted { border-color: var(--piano-muted); }
+      .ring-muted { --tw-ring-color: var(--piano-muted); }
+      .bg-muted-foreground { background-color: var(--piano-muted-foreground); }
+      .text-muted-foreground { color: var(--piano-muted-foreground); }
+      .border-muted-foreground { border-color: var(--piano-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--piano-muted-foreground); }
+      .bg-border { background-color: var(--piano-border); }
+      .text-border { color: var(--piano-border); }
+      .border-border { border-color: var(--piano-border); }
+      .ring-border { --tw-ring-color: var(--piano-border); }
+      .bg-input { background-color: var(--piano-input); }
+      .text-input { color: var(--piano-input); }
+      .border-input { border-color: var(--piano-input); }
+      .ring-input { --tw-ring-color: var(--piano-input); }
+      .bg-ring { background-color: var(--piano-ring); }
+      .text-ring { color: var(--piano-ring); }
+      .border-ring { border-color: var(--piano-ring); }
+      .ring-ring { --tw-ring-color: var(--piano-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+@import './styles/tokens.css';
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--piano-background);
+  --color-foreground: var(--piano-foreground);
+  --color-card: var(--piano-card);
+  --color-card-foreground: var(--piano-card-foreground);
+  --color-popover: var(--piano-popover);
+  --color-popover-foreground: var(--piano-popover-foreground);
+  --color-primary: var(--piano-primary);
+  --color-primary-foreground: var(--piano-primary-foreground);
+  --color-muted: var(--piano-muted);
+  --color-muted-foreground: var(--piano-muted-foreground);
+  --color-border: var(--piano-border);
+  --color-input: var(--piano-input);
+  --color-ring: var(--piano-ring);
+  --radius-sm: var(--piano-radius-sm);
+  --radius-md: var(--piano-radius-md);
+  --radius-lg: var(--piano-radius-lg);
+}
+
+@layer base {
+  html { font-family: 'Outfit', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+  body { background: var(--piano-background, #0d0b1a); color: var(--piano-foreground, #f4f1ff); }
+}
+
+/* === 无障碍增强 === */
+
+/* focus-visible 可见环 */
+*:focus-visible {
+  outline: 2px solid var(--piano-ring);
+  outline-offset: 2px;
+}
+
+/* prefers-reduced-motion 降级 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 色弱配色（通过 .color-blind 类在 <html> 上激活） */
+html.color-blind {
+  --state-success: #56B4E9;  /* 蓝（替代青，对绿弱友好 */
+  --state-info: #E69F00;     /* 橙（替代紫 */
+  --state-warning: #F0E442;  /* 黄（替代粉 */
+  --state-error: #D55E00;    /* 朱红（保持可辨识 */
+}
+
+/* 高对比度模式 */
+html:not(.dark) {
+  --piano-muted-foreground: #4a4a5a;
+  --piano-border: #c0c0d0;
+}
+
+/* === 移动端响应式适配 === */
+
+/* 触屏目标 ≥44px */
+@media (pointer: coarse) {
+  button, [role="button"], a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* HUD 移动端压缩 */
+@media (max-width: 640px) {
+  .hud-container {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .hud-container > * {
+    flex-shrink: 0;
+  }
+}
+
+/* 移动端隐藏滚动条 */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

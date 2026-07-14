@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 · 键琴</title>
+    <style id="theme-vars">
+/* ============================================================
+   键盘弹钢琴 — 品牌设计 Token
+   prefix: piano | theme: dark (default) / light (high-contrast)
+   ============================================================ */
+
+/* --- @font-face (absolute URL, no @import) --- */
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-700-normal.woff2') format('woff2');
+}
+
+/* --- @theme inline (fill-html-head.mjs semantic marker) --- */
+@theme inline {
+  --color-piano-purple: #6d28d9;
+  --color-piano-pink: #db2777;
+  --color-piano-cyan: #0891b2;
+}
+
+/* --- Brand Color Scale --- */
+:root {
+  --piano-purple: #6d28d9;
+  --piano-purple-300: #c4b5fd;
+  --piano-purple-400: #a78bfa;
+  --piano-purple-500: #8b5cf6;
+  --piano-purple-600: #7c3aed;
+  --piano-purple-700: #5b21b6;
+
+  --piano-pink: #db2777;
+  --piano-pink-300: #f9a8d4;
+  --piano-pink-400: #f472b6;
+  --piano-pink-soft: rgba(219, 39, 119, 0.14);
+
+  --piano-cyan: #0891b2;
+  --piano-cyan-300: #67e8f9;
+  --piano-cyan-400: #22d3ee;
+  --piano-cyan-soft: rgba(8, 145, 178, 0.14);
+
+  /* Semantic state colors (judgment tiers) */
+  --state-success: #22d3ee;  /* Perfect ±50ms → cyan */
+  --state-info: #8b5cf6;     /* Great ±100ms → purple */
+  --state-warning: #db2777;  /* Good ±150ms → pink */
+  --state-error: #f43f5e;    /* Miss → red */
+
+  /* Radius scale (restrained) */
+  --piano-radius-sm: 4px;
+  --piano-radius-md: 8px;
+  --piano-radius-lg: 16px;
+  --piano-radius-full: 9999px;
+
+  /* Typography */
+  --piano-font-display: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-body: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --piano-font-mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+}
+
+/* --- Light theme (high-contrast accessibility mode) --- */
+:root {
+  --piano-background: #ffffff;
+  --piano-foreground: #0b0a14;
+  --piano-card: #f6f7fb;
+  --piano-card-foreground: #16182d;
+  --piano-popover: #ffffff;
+  --piano-popover-foreground: #0b0a14;
+  --piano-muted: #eef0f7;
+  --piano-muted-foreground: #6a6c80;
+  --piano-border: #e7e8f0;
+  --piano-input: #e7e8f0;
+  --piano-ring: #6d28d9;
+  --piano-primary: #6d28d9;
+  --piano-primary-foreground: #ffffff;
+
+  /* Semantic aliases for fill-html-head.mjs */
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Dark theme (default immersive mode) --- */
+.dark {
+  --piano-background: #0d0b1a;
+  --piano-foreground: #f4f1ff;
+  --piano-card: #16132a;
+  --piano-card-foreground: #ece8ff;
+  --piano-popover: #1d1936;
+  --piano-popover-foreground: #f4f1ff;
+  --piano-muted: #1d1936;
+  --piano-muted-foreground: #a89fcf;
+  --piano-border: #2a2545;
+  --piano-input: #2a2545;
+  --piano-ring: #8b5cf6;
+  --piano-primary: #8b5cf6;
+  --piano-primary-foreground: #ffffff;
+
+  --piano-radius-small: 4px;
+  --piano-radius-medium: 8px;
+  --piano-radius-large: 16px;
+}
+
+/* --- Semantic token fallback (fill-html-head.mjs marker) --- */
+#semantic-token-fallback {
+  --background: var(--piano-background);
+  --foreground: var(--piano-foreground);
+  --card: var(--piano-card);
+  --card-foreground: var(--piano-card-foreground);
+  --popover: var(--piano-popover);
+  --popover-foreground: var(--piano-popover-foreground);
+  --muted: var(--piano-muted);
+  --muted-foreground: var(--piano-muted-foreground);
+  --border: var(--piano-border);
+  --input: var(--piano-input);
+  --ring: var(--piano-ring);
+  --primary: var(--piano-primary);
+  --primary-foreground: var(--piano-primary-foreground);
+  --radius-sm: var(--piano-radius-sm);
+  --radius-md: var(--piano-radius-md);
+  --radius-lg: var(--piano-radius-lg);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--piano-background);
+    --color-foreground: var(--piano-foreground);
+    --color-card: var(--piano-card);
+    --color-card-foreground: var(--piano-card-foreground);
+    --color-popover: var(--piano-popover);
+    --color-popover-foreground: var(--piano-popover-foreground);
+    --color-primary: var(--piano-primary);
+    --color-primary-foreground: var(--piano-primary-foreground);
+    --color-muted: var(--piano-muted);
+    --color-muted-foreground: var(--piano-muted-foreground);
+    --color-border: var(--piano-border);
+    --color-input: var(--piano-input);
+    --color-ring: var(--piano-ring);
+    --radius-sm: var(--piano-radius-sm);
+    --radius-md: var(--piano-radius-md);
+    --radius-lg: var(--piano-radius-lg);
+  }
+  @layer base {
+    body { background: var(--piano-background); color: var(--piano-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--piano-background); }
+      .text-background { color: var(--piano-background); }
+      .border-background { border-color: var(--piano-background); }
+      .ring-background { --tw-ring-color: var(--piano-background); }
+      .bg-foreground { background-color: var(--piano-foreground); }
+      .text-foreground { color: var(--piano-foreground); }
+      .border-foreground { border-color: var(--piano-foreground); }
+      .ring-foreground { --tw-ring-color: var(--piano-foreground); }
+      .bg-card { background-color: var(--piano-card); }
+      .text-card { color: var(--piano-card); }
+      .border-card { border-color: var(--piano-card); }
+      .ring-card { --tw-ring-color: var(--piano-card); }
+      .bg-card-foreground { background-color: var(--piano-card-foreground); }
+      .text-card-foreground { color: var(--piano-card-foreground); }
+      .border-card-foreground { border-color: var(--piano-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--piano-card-foreground); }
+      .bg-popover { background-color: var(--piano-popover); }
+      .text-popover { color: var(--piano-popover); }
+      .border-popover { border-color: var(--piano-popover); }
+      .ring-popover { --tw-ring-color: var(--piano-popover); }
+      .bg-popover-foreground { background-color: var(--piano-popover-foreground); }
+      .text-popover-foreground { color: var(--piano-popover-foreground); }
+      .border-popover-foreground { border-color: var(--piano-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--piano-popover-foreground); }
+      .bg-primary { background-color: var(--piano-primary); }
+      .text-primary { color: var(--piano-primary); }
+      .border-primary { border-color: var(--piano-primary); }
+      .ring-primary { --tw-ring-color: var(--piano-primary); }
+      .bg-primary-foreground { background-color: var(--piano-primary-foreground); }
+      .text-primary-foreground { color: var(--piano-primary-foreground); }
+      .border-primary-foreground { border-color: var(--piano-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--piano-primary-foreground); }
+      .bg-muted { background-color: var(--piano-muted); }
+      .text-muted { color: var(--piano-muted); }
+      .border-muted { border-color: var(--piano-muted); }
+      .ring-muted { --tw-ring-color: var(--piano-muted); }
+      .bg-muted-foreground { background-color: var(--piano-muted-foreground); }
+      .text-muted-foreground { color: var(--piano-muted-foreground); }
+      .border-muted-foreground { border-color: var(--piano-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--piano-muted-foreground); }
+      .bg-border { background-color: var(--piano-border); }
+      .text-border { color: var(--piano-border); }
+      .border-border { border-color: var(--piano-border); }
+      .ring-border { --tw-ring-color: var(--piano-border); }
+      .bg-input { background-color: var(--piano-input); }
+      .text-input { color: var(--piano-input); }
+      .border-input { border-color: var(--piano-input); }
+      .ring-input { --tw-ring-color: var(--piano-input); }
+      .bg-ring { background-color: var(--piano-ring); }
+      .text-ring { color: var(--piano-ring); }
+      .border-ring { border-color: var(--piano-ring); }
+      .ring-ring { --tw-ring-color: var(--piano-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- Fixed shared background -->
+      <div aria-hidden="true" class="fixed inset-0 -z-10 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, var(--piano-purple-700), var(--piano-background) 70%);"></div>
+
+      <!-- Shared top bar -->
+      <header class="fixed top-0 inset-x-0 z-50 h-14 flex items-center justify-between gap-2 px-4 sm:px-6" style="background: var(--piano-card); border-bottom: 1px solid var(--piano-border);">
+        <a href="#" data-dom-id="back-home" class="shrink-0 whitespace-nowrap" style="font-family: var(--piano-font-display); font-size: 20px; font-weight: 700; color: var(--piano-foreground);">键琴</a>
+        <nav class="flex items-center gap-3 sm:gap-6">
+          <a data-nav-key="home" data-dom-id="nav-home" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-primary); font-weight: 600;">首页</a>
+          <a href="#" data-nav-key="library" data-dom-id="nav-library" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">曲库</a>
+          <a href="#" data-nav-key="settings" data-dom-id="nav-settings" class="whitespace-nowrap text-sm sm:text-base transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">设置</a>
+        </nav>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" aria-label="切换主题" class="inline-flex items-center justify-center h-9 w-9 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">
+            <i data-lucide="palette" class="h-5 w-5"></i>
+          </button>
+          <button type="button" aria-label="帮助" class="inline-flex items-center justify-center h-9 w-9 rounded-md transition-opacity hover:opacity-80" style="color: var(--piano-muted-foreground);">
+            <i data-lucide="help-circle" class="h-5 w-5"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <section class="relative min-h-screen flex items-center justify-center px-4 sm:px-6 pt-14 overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 -z-10" style="background-image: linear-gradient(to bottom, color-mix(in srgb, var(--piano-background) 50%, transparent), color-mix(in srgb, var(--piano-background) 82%, transparent)), url('../assets/hero-starry-piano.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="max-w-3xl mx-auto text-center flex flex-col items-center gap-6">
+          <h1 style="font-family: var(--piano-font-display); font-size: clamp(36px, 6vw, 72px); font-weight: 700; color: var(--piano-foreground); line-height: 1.1; text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;">键盘即琴键</h1>
+          <p class="max-w-md" style="font-family: var(--piano-font-body); font-size: 18px; color: var(--piano-muted-foreground); line-height: 1.6;">弹、跟、转，三秒听到第一个音</p>
+          <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <a href="#" data-dom-id="cta-free-play" class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-8 py-3 text-base font-semibold transition-transform hover:scale-[1.02] w-full sm:w-auto" style="background: var(--piano-primary); color: var(--piano-primary-foreground);">立即弹奏</a>
+            <a href="#" data-dom-id="cta-ai-transcription" class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-8 py-3 text-base font-semibold transition-opacity hover:opacity-80 w-full sm:w-auto" style="background: transparent; color: var(--piano-foreground); border: 1px solid var(--piano-border);">AI 转谱</a>
+            <a href="#" data-dom-id="cta-3d-piano" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-6 py-3 text-base font-semibold transition-opacity hover:opacity-80 w-full sm:w-auto" style="background: transparent; color: var(--piano-cyan-400); border: 1px solid var(--piano-cyan);"><i data-lucide="sparkles" class="h-4 w-4"></i>3D 展示</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mode selection (editorial columns with dividers) -->
+      <section class="px-4 sm:px-6 py-16 sm:py-24">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-3">
+            <!-- Column 1: 自由弹奏 -->
+            <div class="py-8 md:py-0 md:px-8 md:border-l-0" style="border-color: var(--piano-border);">
+              <div class="flex flex-col gap-3">
+                <span class="inline-flex items-center justify-center h-11 w-11 rounded-lg" style="background: var(--piano-muted); color: var(--piano-primary);">
+                  <i data-lucide="piano" class="h-5 w-5"></i>
+                </span>
+                <h3 class="text-xl whitespace-nowrap" style="font-family: var(--piano-font-display); font-weight: 600; color: var(--piano-foreground);">自由弹奏</h3>
+                <p class="text-sm leading-relaxed line-clamp-3" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">用键盘弹奏，四种音色随心切换</p>
+                <a href="#" data-dom-id="shortcut-free-play" class="inline-flex items-center gap-1 text-sm font-medium whitespace-nowrap mt-1 transition-opacity hover:opacity-80" style="color: var(--piano-primary);">开始 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              </div>
+            </div>
+            <!-- Column 2: 跟弹打分 -->
+            <div class="py-8 md:py-0 md:px-8 border-t md:border-t-0 md:border-l" style="border-color: var(--piano-border);">
+              <div class="flex flex-col gap-3">
+                <span class="inline-flex items-center justify-center h-11 w-11 rounded-lg" style="background: var(--piano-cyan-soft); color: var(--piano-cyan-400);">
+                  <i data-lucide="target" class="h-5 w-5"></i>
+                </span>
+                <h3 class="text-xl whitespace-nowrap" style="font-family: var(--piano-font-display); font-weight: 600; color: var(--piano-foreground);">跟弹打分</h3>
+                <p class="text-sm leading-relaxed line-clamp-3" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">下落音符 + 实时判定，像音游一样练琴</p>
+                <a href="#" data-dom-id="shortcut-follow-play" class="inline-flex items-center gap-1 text-sm font-medium whitespace-nowrap mt-1 transition-opacity hover:opacity-80" style="color: var(--piano-primary);">开始 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              </div>
+            </div>
+            <!-- Column 3: AI 转谱 -->
+            <div class="py-8 md:py-0 md:px-8 border-t md:border-t-0 md:border-l" style="border-color: var(--piano-border);">
+              <div class="flex flex-col gap-3">
+                <span class="inline-flex items-center justify-center h-11 w-11 rounded-lg" style="background: var(--piano-pink-soft); color: var(--piano-pink-400);">
+                  <i data-lucide="wand-sparkles" class="h-5 w-5"></i>
+                </span>
+                <h3 class="text-xl whitespace-nowrap" style="font-family: var(--piano-font-display); font-weight: 600; color: var(--piano-foreground);">AI 转谱</h3>
+                <p class="text-sm leading-relaxed line-clamp-3" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">上传音频，AI 自动生成可弹谱面</p>
+                <a href="#" data-dom-id="link-ai-transcription" class="inline-flex items-center gap-1 text-sm font-medium whitespace-nowrap mt-1 transition-opacity hover:opacity-80" style="color: var(--piano-primary);">开始 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recommended songs -->
+      <section class="px-4 sm:px-6 pb-16 sm:pb-24">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex items-end justify-between gap-4 mb-6">
+            <h2 class="text-2xl sm:text-3xl whitespace-nowrap" style="font-family: var(--piano-font-display); font-weight: 700; color: var(--piano-foreground);">为你推荐</h2>
+            <a href="#" data-dom-id="cta-library" class="inline-flex items-center gap-1 text-sm font-medium whitespace-nowrap transition-opacity hover:opacity-80" style="color: var(--piano-primary);">查看全部 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+          </div>
+          <div class="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-2 -mx-1 px-1">
+            <!-- Song 1: 小星星 -->
+            <article class="snap-start shrink-0 w-[170px] sm:w-[200px] rounded-lg p-3 flex flex-col gap-3" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+              <div class="aspect-square rounded-md flex items-center justify-center" style="background: linear-gradient(135deg, var(--piano-purple-700), var(--piano-purple-500)); color: var(--piano-primary-foreground);">
+                <i data-lucide="music" class="h-7 w-7 opacity-90"></i>
+              </div>
+              <h4 class="text-base font-semibold truncate" style="font-family: var(--piano-font-display); color: var(--piano-foreground);">小星星</h4>
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium" style="background: color-mix(in srgb, var(--state-success) 16%, transparent); color: var(--state-success);">入门</span>
+                <span class="text-xs whitespace-nowrap" style="font-family: var(--piano-font-mono); color: var(--piano-muted-foreground);">80 BPM</span>
+              </div>
+            </article>
+            <!-- Song 2: 欢乐颂 -->
+            <article class="snap-start shrink-0 w-[170px] sm:w-[200px] rounded-lg p-3 flex flex-col gap-3" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+              <div class="aspect-square rounded-md flex items-center justify-center" style="background: linear-gradient(135deg, var(--piano-purple-600), var(--piano-pink-400)); color: var(--piano-primary-foreground);">
+                <i data-lucide="music" class="h-7 w-7 opacity-90"></i>
+              </div>
+              <h4 class="text-base font-semibold truncate" style="font-family: var(--piano-font-display); color: var(--piano-foreground);">欢乐颂</h4>
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium" style="background: color-mix(in srgb, var(--state-info) 16%, transparent); color: var(--state-info);">进阶</span>
+                <span class="text-xs whitespace-nowrap" style="font-family: var(--piano-font-mono); color: var(--piano-muted-foreground);">120 BPM</span>
+              </div>
+            </article>
+            <!-- Song 3: 卡农片段 -->
+            <article class="snap-start shrink-0 w-[170px] sm:w-[200px] rounded-lg p-3 flex flex-col gap-3" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+              <div class="aspect-square rounded-md flex items-center justify-center" style="background: linear-gradient(135deg, var(--piano-cyan), var(--piano-purple-600)); color: var(--piano-primary-foreground);">
+                <i data-lucide="music" class="h-7 w-7 opacity-90"></i>
+              </div>
+              <h4 class="text-base font-semibold truncate" style="font-family: var(--piano-font-display); color: var(--piano-foreground);">卡农片段</h4>
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium" style="background: color-mix(in srgb, var(--state-warning) 16%, transparent); color: var(--state-warning);">挑战</span>
+                <span class="text-xs whitespace-nowrap" style="font-family: var(--piano-font-mono); color: var(--piano-muted-foreground);">64 BPM</span>
+              </div>
+            </article>
+            <!-- Song 4: 天空之城 -->
+            <article class="snap-start shrink-0 w-[170px] sm:w-[200px] rounded-lg p-3 flex flex-col gap-3" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+              <div class="aspect-square rounded-md flex items-center justify-center" style="background: linear-gradient(135deg, var(--piano-pink), var(--piano-cyan-400)); color: var(--piano-primary-foreground);">
+                <i data-lucide="music" class="h-7 w-7 opacity-90"></i>
+              </div>
+              <h4 class="text-base font-semibold truncate" style="font-family: var(--piano-font-display); color: var(--piano-foreground);">天空之城</h4>
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium" style="background: color-mix(in srgb, var(--state-info) 16%, transparent); color: var(--state-info);">进阶</span>
+                <span class="text-xs whitespace-nowrap" style="font-family: var(--piano-font-mono); color: var(--piano-muted-foreground);">72 BPM</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guide entry -->
+      <section class="px-4 sm:px-6 pb-16 sm:pb-24">
+        <div class="max-w-6xl mx-auto rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6" style="background: var(--piano-card); border: 1px solid var(--piano-border);">
+          <span class="inline-flex items-center justify-center h-12 w-12 shrink-0 rounded-lg" style="background: var(--piano-muted); color: var(--piano-primary);">
+            <i data-lucide="graduation-cap" class="h-6 w-6"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg sm:text-xl whitespace-nowrap" style="font-family: var(--piano-font-display); font-weight: 600; color: var(--piano-foreground);">3 分钟上手</h3>
+            <p class="text-sm mt-1 truncate" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">新手引导带你认识键位映射</p>
+          </div>
+          <button type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-md px-6 py-2.5 text-sm font-semibold shrink-0 transition-opacity hover:opacity-90 w-full sm:w-auto" style="background: var(--piano-primary); color: var(--piano-primary-foreground);">开始引导</button>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="px-4 sm:px-6 py-6 text-center">
+        <p class="text-xs" style="font-family: var(--piano-font-body); color: var(--piano-muted-foreground);">键琴 · 纯前端零后端</p>
+      </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

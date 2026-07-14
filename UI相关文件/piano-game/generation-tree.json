@@ -1,0 +1,103 @@
+{
+  "root": {
+    "nodeId": "gen-project-shell",
+    "kind": "project-shell",
+    "pageIds": ["page-home", "page-free-play", "page-follow-play", "page-ai-transcription", "page-song-library", "page-results", "page-settings"],
+    "output": "partials/project-shell.html",
+    "sharedRegions": ["header", "footer", "background-layer"],
+    "privateRegions": [],
+    "mutableSlots": ["activeNavItem", "pageTitle"],
+    "status": "generated",
+    "children": [
+      {
+        "nodeId": "gen-piano-stage",
+        "kind": "shared-branch",
+        "pageIds": ["page-free-play", "page-follow-play"],
+        "output": "partials/piano-stage.html",
+        "sharedRegions": ["piano-keyboard", "octave-indicator", "key-labels"],
+        "privateRegions": [],
+        "mutableSlots": ["highlightedKey"],
+        "status": "generated",
+        "children": [
+          {
+            "nodeId": "page-free-play",
+            "kind": "page-leaf",
+            "pageIds": ["page-free-play"],
+            "output": "pages/free-play.html",
+            "sharedRegions": [],
+            "privateRegions": ["left control panel", "center stage with 3D visual", "right info panel"],
+            "mutableSlots": ["activeNavItem", "pageTitle"],
+            "status": "generated",
+            "children": []
+          },
+          {
+            "nodeId": "page-follow-play",
+            "kind": "page-leaf",
+            "pageIds": ["page-follow-play"],
+            "output": "pages/follow-play.html",
+            "sharedRegions": [],
+            "privateRegions": ["HUD bar", "falling notes highway", "judgment popups", "score panel"],
+            "mutableSlots": ["activeNavItem", "pageTitle"],
+            "status": "generated",
+            "children": []
+          }
+        ]
+      },
+      {
+        "nodeId": "page-home",
+        "kind": "page-leaf",
+        "pageIds": ["page-home"],
+        "output": "pages/home.html",
+        "sharedRegions": [],
+        "privateRegions": ["hero section", "mode selection columns", "recommended songs", "guide entry"],
+        "mutableSlots": ["activeNavItem", "pageTitle"],
+        "status": "generated",
+        "children": []
+      },
+      {
+        "nodeId": "page-ai-transcription",
+        "kind": "page-leaf",
+        "pageIds": ["page-ai-transcription"],
+        "output": "pages/ai-transcription.html",
+        "sharedRegions": [],
+        "privateRegions": ["upload area", "progress section", "result preview", "enter follow CTA"],
+        "mutableSlots": ["activeNavItem", "pageTitle"],
+        "status": "generated",
+        "children": []
+      },
+      {
+        "nodeId": "page-song-library",
+        "kind": "page-leaf",
+        "pageIds": ["page-song-library"],
+        "output": "pages/song-library.html",
+        "sharedRegions": [],
+        "privateRegions": ["search and filters", "song grid", "bottom action bar"],
+        "mutableSlots": ["activeNavItem", "pageTitle"],
+        "status": "generated",
+        "children": []
+      },
+      {
+        "nodeId": "page-results",
+        "kind": "page-leaf",
+        "pageIds": ["page-results"],
+        "output": "pages/results.html",
+        "sharedRegions": [],
+        "privateRegions": ["score display", "stats metrics", "accuracy chart", "action buttons"],
+        "mutableSlots": ["activeNavItem", "pageTitle"],
+        "status": "generated",
+        "children": []
+      },
+      {
+        "nodeId": "page-settings",
+        "kind": "page-leaf",
+        "pageIds": ["page-settings"],
+        "output": "pages/settings.html",
+        "sharedRegions": [],
+        "privateRegions": ["settings nav", "visual style presets", "audio settings", "accessibility", "about"],
+        "mutableSlots": ["activeNavItem", "pageTitle"],
+        "status": "generated",
+        "children": []
+      }
+    ]
+  }
+}
